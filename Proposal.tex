@@ -47,49 +47,48 @@ The high level goal of this project is to build informative and elegant visualiz
 
 \section{Data}
 We obtain the student performance data set from the UCI machine learning data repo: \href{http://archive.ics.uci.edu/ml/datasets/Student+Performance}{Click here} or \
-go to the url: \url{http://archive.ics.uci.edu/ml/datasets/Student+Performance}
-
+go to the url: \url{http://archive.ics.uci.edu/ml/datasets/Student+Performance}\\
+\newline
 This data incudes student achievement in secondary education of two Portuguese schools. The data features consist of student grades, demographic, social and school related features. There are Two datasets are students performance in two distinct subjects: Mathematics (mat) and Portuguese language (por). Attribute Information: 
-1. school - student's school, 
-2. sex - student's sex,
-3. age - student's age, 
-4. address - student's home address type, 
-5. famsize - family size, 
-6. Pstatus - parent's cohabitation status, 
-7. Medu - mother's education,
-8. Fedu - father's education,
-9. Mjob - mother's job, 
-10. Fjob - father's job, 
-11. reason - reason to choose this school, 
-12. guardian - student's guardian, 
-13. traveltime - home to school travel time,
-14. studytime - weekly study time, 
-15. failures - number of past class failures, 
-16. schoolsup - extra educational support, 
-17. famsup - family educational support,
-18. paid - extra paid classes within the course subject, 
-19. activities - extra-curricular activities,
-20. nursery - attended nursery school, 
-21. higher - wants to take higher education, 
-22. internet - Internet access at home, 
-23. romantic - with a romantic relationship, 
-24. famrel - quality of family relationships, 
-25. freetime - free time after school, 
-26. goout - going out with friends,
-27. Dalc - workday alcohol consumption, 
-28. Walc - weekend alcohol consumption, 
-29. health - current health status, 
-30. absences, 
-These grades are related with the course subject, Math or Portuguese: 
-31. G1 - first period grade, 
-32. G2 - second period grade, 
-33. G3 - final grade. 
+1. school - student's school, \\
+2. sex - student's sex,\\
+3. age - student's age, \\
+4. address - student's home address type,\\ 
+5. famsize - family size, \\
+6. Pstatus - parent's cohabitation status,\\ 
+7. Medu - mother's education,\\
+8. Fedu - father's education,\\
+9. Mjob - mother's job, \\
+10. Fjob - father's job, \\
+11. reason - reason to choose this school, \\
+12. guardian - student's guardian, \\
+13. traveltime - home to school travel time,\\
+14. studytime - weekly study time, \\
+15. failures - number of past class failures,\\ 
+16. schoolsup - extra educational support, \\
+17. famsup - family educational support,\\
+18. paid - extra paid classes within the course subject, \\
+19. activities - extra-curricular activities,\\
+20. nursery - attended nursery school, \\
+21. higher - wants to take higher education,\\ 
+22. internet - Internet access at home, \\
+23. romantic - with a romantic relationship,\\ 
+24. famrel - quality of family relationships, \\
+25. freetime - free time after school, \\
+26. goout - going out with friends,\\
+27. Dalc - workday alcohol consumption,\\ 
+28. Walc - weekend alcohol consumption,\\ 
+29. health - current health status, \\
+30. absences, \\
+These grades are related with the course subject, Math or Portuguese: \\
+31. G1 - first period grade, \\
+32. G2 - second period grade,\\ 
+33. G3 - final grade. \\
 \section{Data Processing}
 The data contains many ordinary features, we need to translate these ordinary features to dummy variables. The data is stored in CSV files. There are no missing values. We do not need to clean data up.
 \section{Visualization Design}
 \subsection{Initial Design}
 We brain-stormed and came up with these ideas to accomplish visualization target.
-
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.23]{pairwise_scatter.jpg}
@@ -104,40 +103,43 @@ We brain-stormed and came up with these ideas to accomplish visualization target
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.25]{parallel_plot.jpg}
+\includegraphics[scale=0.23]{parallel_plot.jpg}
 \caption{Parallel plot shows the trend relationships between features and the relationship between features and grades. We could analysis the trends from these relations. It is also powerful to pick out anti-trends outliers.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.25]{line_plot.jpg}
+\includegraphics[scale=0.23]{line_plot.jpg}
 \caption{Line plot is a typical visualization plot that represent the trends. We came up with this at very beginning.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.25]{stream_plot.jpg}
+\includegraphics[scale=0.23]{stream_plot.jpg}
 \caption{Stream plot, as an advanced plot type of line plot, not only shows the trend of grads for different class of students and also demos the proportions of each part to the total.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.25]{projected_scatter.jpg}
+\includegraphics[scale=0.23]{projected_scatter.jpg}
 \caption{Apply multiple projection methods to get the best one and according to the projection results to discovery the outliers. The projection methods are also feature engineering processing which could combine the information among features. So the projected dimensions are more reasonable to circle out the outliers.}
 \end{figure}
 
 \subsection{Trade-off}
-The visualization must achieve our target: 1. Discover the trend 2. Discover the relationships between features 3. Discover the outliers.
+The visualization must achieve our target:\\
+1. Discover the trend. \\
+2. Discover the relationships between features. \\
+3. Discover the outliers.\\
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.3]{compare.jpg}
+\includegraphics[scale=0.21]{compare.jpg}
 \caption{The parallel plot could satisfy all three tasks, we definitely want to keep this. Pair-wise scatter is good, but our data have 33 features which need $33*(33-1)/2 = 528$ subplots. It is too big to show. Line Plot is easy but evolve less information. Stream plot is worthy to show since it contains the trends and the part to total relation. For now, we think projected-scatter plot is good for detecting the outliers, but it depends on projecting method. If the result of projection is not optimal as our exception, graph plot is an alternative plan.}
 \end{figure}
 Through this selection, we will continue working on the Parallel plot and Stream Plot. Projected scatter plot and graph plot will be carefully checked and picked by their results. 
 \subsection{Layout Design}
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.35]{layout_design.jpg}
+\includegraphics[scale=0.23]{layout_design.jpg}
 \caption{After discussion mentioned above, we plan to set our final visualization layout as following.  Parallel plot and projected scatter plot (or graph plot) are placed on the left side. Feature choice buttons that allow users to customize the stream plot are located on the right side top. Below this control panel, it is the stream plot which features are controlled by above buttons. On the right bottom, a zoom-in text area show the result  of interaction in the left part. If users click any points in scatter plots or lines in parallel plot, the instance detail should be shown in this area.}
 \end{figure}
 \section{Must-Have Features}
