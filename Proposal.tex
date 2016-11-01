@@ -25,6 +25,7 @@ go to the url: \url{https://github.com/zc8340311/CS573FinalProject}
 Education is a key factor in affecting people career and achievement in the later-on life. So it's interesting to understand how the students' background and personal effort impact the learning process. We have a real-world dataset that include such factors, such as student grades, demographic, social and school related features. For the learning measurement, the dataset consists of the grade of Math and Portuguese, where are the targets that we could predict from the student background, personal efforts and other social and school related features. The reason that we choose this dataset is that educational data mining is very interesting by exploring the factors that contributes to the success of learning. If such factors are well understand and discovered, we can help the students learn more effective and efficient. Another reason is from our personal experiences, Both learning a foreign language and learning the math needs some ``talents''. But the talent needed for language and math seems different, since math and language are processed in different area of our brain . Based on the above motivation, we would like to explore the relation between students' background and their grades in math and Portuguese and also to verify our assumption that the ``talents'' for math and Portuguese are different.
 
 \section{Project Objectives}
+<<<<<<< HEAD
 The high level goal of this project is to build informative and elegant visualization that helps us understand the student performance and related features.
 \begin{description}
 \item [A. Discover the trends and relationships]  \
@@ -82,21 +83,33 @@ These grades are related with the course subject, Math or Portuguese: \\
 31 G2 - second period grade (numeric: from 0 to 20) \\
 32 G3 - final grade (numeric: from 0 to 20, output target) \\
 
+=======
+\subsection{Build Informative and Vivid Plots}
+The main purpose of visualization 
+\subsubsection{Discover the trends and Relationships}
+Any trend among the relationships? Any features are strongly correlated?  good students always good? 
+\subsubsection{Discover Outliers}
+Any student stands out? or departure from the main trend? For example, for certain kind of student's background, he/she should get some good or bad grade, but his/her performance is far away from our expectation. Why this outliers happen? We expect our visualization will offer some evidence or hints to discover and help explain outliers.
+
+\section{Data}
+Our data are obtained from the UCI machine learning data repo: \\
+http://archive.ics.uci.edu/ml/datasets/Student+Performance
+>>>>>>> b159645f5b71c3eea6befc50f02960cf7e0ef5d8
 \section{Data Processing}
 The data contains many ordinary features, we need to translate these ordinary features to dummy variables. The data is stored in CSV files. There are no missing values. So there is no extra data cleanup process.
 
 \section{Visualization Design}
-\subsection{Trends discovery}
-1. parallel plot to show the trend relationships between features. 
+\subsection{Trends Discovery}
+1. parallel plot to show the trend relationships between features. \\
 2. stream plot to show the trend of grads for different class of students.
-\subsection{Outlier discovery}
+\subsection{Outlier Discovery}
 3. Apply multiple projection method to discover the best projection method and according to the projection method to discovery the 
-\subsection{Feature Importance Discovery}
+\subsection{Comparison of Initial Design and}
 \section{Must-Have Features}
-1. Allow zoom-in and zoom-out for the trends' and outliers' detail.
-2. Allow customized manipulation of data.
-3. Multi-dimension visualization plot which could involve multiple features while offering as much information as possible. 
-3. Apply distinguishable color map to represent the categories.
+1. Allow zoom-in and zoom-out for the trends' and outliers' detail. \\
+2. Allow customized manipulation of data. \\ 
+3. Multi-dimension visualization plot which could involve multiple features while offering as much information as possible. \\
+3. Apply distinguishable color map to represent the categories. \\
 \section{Optional Features}
 \section{Project Schedule}
 \section{Reference}
