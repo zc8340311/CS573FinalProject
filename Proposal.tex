@@ -89,18 +89,18 @@ These grades are related with the course subject, Math or Portuguese: \\
 The data contains many ordinary features, we need to translate these ordinary features to dummy variables. The data is stored in CSV files. There are no missing values. We do not need to clean data up.
 \section{Visualization Design}
 \subsection{Initial Design}
-We brain-storm and come up with these ideas to accomplish visualization target.
+We brain-stormed and came up with these ideas to accomplish visualization target.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.23]{pairwise_scatter.jpg}
-\caption{Pair-wise scatter plot is a typical way to show the relationship between features. If we have $n$ features, we demo $n*(n-1)/2$ subplots to show pairwise relationships. Each subplot pick out two features and scatter plot according these two features.}
+\caption{Pair-wise scatter plot is a typical way to show the relationship between features. If we have $n$ features, we use $n*(n-1)/2$ subplots to show pairwise relationships. Each subplot picks out two features and the scatter plot according these two features.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.23]{graph.jpg}
-\caption{Graph plot demo the connections between features as a nodes-edges net. Each node is a feature. Each edge connecting nodes demo the relationship between these two node. This connection could be strong in red color, weak in green color, or negatively connected in blue color. Graph is good to give a overall impression on the feature relations.}
+\caption{Graph plot shows connections between features as a nodes-edges net. Each node is a feature and each edge connecting nodes presents the relationship between these two node. This connection could be strong in red color, weak in green color, or negatively connected in blue color. Graph is good to give an overall impression on the feature relations.}
 \end{figure}
 
 \begin{figure}[H]
@@ -112,19 +112,19 @@ We brain-storm and come up with these ideas to accomplish visualization target.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{line_plot.jpg}
-\caption{Line plot is a typical visualization plot that represent the trends. We come up with this at very beginning.}
+\caption{Line plot is a typical visualization plot that represent the trends. We came up with this at very beginning.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{stream_plot.jpg}
-\caption{Stream plot, as a advanced plot type of line plot, not only shows the trend of grads for different class of students and also demo the proportions of each part to the total.}
+\caption{Stream plot, as an advanced plot type of line plot, not only shows the trend of grads for different class of students and also demos the proportions of each part to the total.}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{projected_scatter.jpg}
-\caption{Apply multiple projection methods to get the best projection method and according to the projection results to discovery the outliers. The projection methods are also feature engineering processing which could combine the information among features. So the projected dimensions are more reasonable to circle out the outliers.}
+\caption{Apply multiple projection methods to get the best one and according to the projection results to discovery the outliers. The projection methods are also feature engineering processing which could combine the information among features. So the projected dimensions are more reasonable to circle out the outliers.}
 \end{figure}
 
 \subsection{Trade-off}
@@ -134,24 +134,28 @@ The visualization must achieve our target: 1. Discover the trend 2. Discover the
 \includegraphics[scale=0.3]{compare.jpg}
 \caption{The parallel plot could satisfy all three tasks, we definitely want to keep this. Pair-wise scatter is good, but our data have 33 features which need $33*(33-1)/2 = 528$ subplots. It is too big to show. Line Plot is easy but evolve less information. Stream plot is worthy to show since it contains the trends and the part to total relation. For now, we think projected-scatter plot is good for detecting the outliers, but it depends on projecting method. If the result of projection is not optimal as our exception, graph plot is an alternative plan.}
 \end{figure}
-Through the selection, we will continue working on the Parallel plot and Stream Plot. We need to carefully check projected scatter and graph plot, and choose one kind.
+Through this selection, we will continue working on the Parallel plot and Stream Plot. Projected scatter plot and graph plot will be carefully checked and picked by their results. 
 \subsection{Layout Design}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.35]{layout_design.jpg}
-\caption{After discussion, we plan to set our final visualization layout as above. We include the parallel plot, projected scatter plot (or graph plot) on the left side. On the right side top, we want to arrange set of feature choice buttons that allow users to customize the stream plot. Below this control panel, we set the stream plot which features are controlled by the above button. On the bottom right, a zoom-in text area show the result  of left part interaction. If users click any points in scatter plots or lines in parallel plot, the instance detail should be shown on this area.}
+\caption{After discussion mentioned above, we plan to set our final visualization layout as following.  Parallel plot and projected scatter plot (or graph plot) are placed on the left side. Feature choice buttons that allow users to customize the stream plot are located on the right side top. Below this control panel, it is the stream plot which features are controlled by above buttons. On the right bottom, a zoom-in text area show the result  of interaction in the left part. If users click any points in scatter plots or lines in parallel plot, the instance detail should be shown in this area.}
 \end{figure}
 \section{Must-Have Features}
 1. Allow zoom-in and zoom-out for the trends' and outliers' detail. \\
 2. Allow customized manipulation of data. \\ 
 3. Multi-dimension visualization plot which could involve multiple features while offering as much information as possible. \\
-3. Apply distinguishable color map to represent the categories. \\
+4. Apply distinguishable color map to represent the categories. \\
 \section{Optional Features}
 \begin{itemize}
 \item Animation.
 \item Customized Analysis function.
 \end{itemize}
 \section{Project Schedule}
+1. Nov.1 - Nov.7 : Compare results of projected scatter plot and graph plot and make our final decision.\\
+2. Nov.8 - Nov.14: Design parallel plot,  stream plot and the interactive buttons.\\ 
+3. Nov.15 - Nov.21: Complete zoom-in and zoom-out  function.\\
+4. Nov.22 - Nov.28: Fix bug and make some modifications to get a more perfect final visualization layout.
 \section{Reference}
 UCI data repo Link: {http://archive.ics.uci.edu/ml/datasets/Student+Performance}
 \end{document}
