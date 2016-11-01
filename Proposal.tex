@@ -2,9 +2,10 @@
 \usepackage[margin=0.9in]{geometry}
 \usepackage{mathtools}
 \usepackage{hyperref}
-\renewcommand{\baselinestretch}{1.5}
+\renewcommand{\baselinestretch}{1.0}
 
-\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+\usepackage{float}
+%\usepackage{wrapfig} % Allows in-line images such as the example fish picture
 \usepackage[pdftex]{graphicx} 
 \graphicspath{{scrachPlot/}} % declare the path(s) where your graphic files
 
@@ -35,14 +36,13 @@ The high level goal of this project is to build informative and elegant visualiz
 \begin{itemize}
 \item The trend between our target and student factors
 \item The features with high correlation with each other
-\item Whether the students' performance is consistant
+\item Whether the students' performance is consistent
 \end{itemize}
 
 \item [B. Discover the outliers]  \
 \begin{itemize}
 \item Any student stands out? or departure from the general trend? For example, for certain kind of student's background, he/she should achieve some good or bad grade, but his/her performance depart from our expectation. Why this outliers happen? We expect our visualization will offer some evidence or hints to discover and help explain outliers.
 \end{itemize}
-\item [C. Discover the feature Importance] We could split the data according to some 
 \end{description}
 
 \section{Data}
@@ -85,24 +85,73 @@ These grades are related with the course subject, Math or Portuguese: \\
 31 G1 - first period grade (numeric: from 0 to 20) \\
 31 G2 - second period grade (numeric: from 0 to 20) \\
 32 G3 - final grade (numeric: from 0 to 20, output target) \\
-
 \section{Data Processing}
-The data contains many ordinary features, we need to translate these ordinary features to dummy variables. The data is stored in CSV files. There are no missing values. So there is no extra data cleanup process.
-
+The data contains many ordinary features, we need to translate these ordinary features to dummy variables. The data is stored in CSV files. There are no missing values. We do not need to clean data up.
 \section{Visualization Design}
-\subsection{Trends Discovery}
-1. parallel plot to show the trend relationships between features. \\
-2. stream plot to show the trend of grads for different class of students.
-\subsection{Outlier Discovery}
-3. Apply multiple projection method to discover the best projection method and according to the projection method to discovery the 
-\subsection{Comparison of Initial Design and}
+\subsection{Initial Design}
+We brain-storm and come up with these ideas to accomplish visualization target.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{pairwise_scatter.jpg}
+\caption{Pair-wise scatter plot is a typical way to show the relationship between features. If we have $n$ features, we demo $n*(n-1)/2$ subplots to show pairwise relationships. Each subplot pick out two features and scatter plot according these two features.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.2]{graph.jpg}
+\caption{Graph plot demo the connections between features as a nodes-edges net. Each node is a feature. Each edge connecting nodes demo the relationship between these two node. This connection could be strong in red color, weak in green color, or negatively connected in blue color. Graph is good to give a overall impression on the feature relations.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{parallel_plot.jpg}
+\caption{Parallel plot shows the trend relationships between features and the relationship between features and grades. We could analysis the trends from these relations. It is also powerful to pick out anti-trends outliers.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{line_plot.jpg}
+\caption{Line plot is a typical visualization plot that represent the trends. We come up with this at very beginning.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{stream_plot.jpg}
+\caption{Stream plot, as a advanced plot type of line plot, not only shows the trend of grads for different class of students and also demo the proportions of each part to the total.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{projected_scatter.jpg}
+\caption{Apply multiple projection methods to get the best projection method and according to the projection results to discovery the outliers. The projection methods are also feature engineering processing which could combine the information among features. So the projected dimensions are more reasonable to circle out the outliers.}
+\end{figure}
+
+\subsection{Trade-off}
+The visualization must achieve our target: 1. Discover the trend 2. Discover the relationships between features 3. Discover the outliers.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{compare.jpg}
+\caption{The parallel plot could satisfy all three tasks, we definitely want to keep this. Pair-wise scatter is good, but our data have 33 features which need $33*(33-1)/2 = 528$ subplots. It is too big to show. Line Plot is easy but evolve less information. Stream plot is worthy to show since it contains the trends and the part to total relation. For now, we think projected-scatter plot is good for detecting the outliers, but it depends on projecting method. If the result of projection is not optimal as our exception, graph plot is an alternative plan.}
+\end{figure}
+Through the selection, we will continue working on the Parallel plot and Stream Plot. We need to carefully check projected scatter and graph plot, and choose one kind.
+\subsection{Layout Design}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{layout_design.jpg}
+\caption{After discussion, we plan to set our final visualization layout as above. We include the parallel plot, projected scatter plot (or graph plot) on the left side. On the right side top, we want to arrange set of feature choice buttons that allow users to customize the stream plot. Below this control panel, we set the stream plot which features are controlled by the above button. On the bottom right, a zoom-in text area show the result  of left part interaction. If users click any points in scatter plots or lines in parallel plot, the instance detail should be shown on this area.}
+\end{figure}
 \section{Must-Have Features}
 1. Allow zoom-in and zoom-out for the trends' and outliers' detail. \\
 2. Allow customized manipulation of data. \\ 
 3. Multi-dimension visualization plot which could involve multiple features while offering as much information as possible. \\
 3. Apply distinguishable color map to represent the categories. \\
 \section{Optional Features}
+\begin{itemize}
+\item Animation.
+\item Customized Analysis function.
+\end{itemize}
 \section{Project Schedule}
 \section{Reference}
-UCI data repo
+UCI data repo Link: {http://archive.ics.uci.edu/ml/datasets/Student+Performance}
 \end{document}
