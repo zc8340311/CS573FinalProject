@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Project Try</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+        <style type="text/css">
+            button{
+                position:absolute;
+                id: "button";
+                left: 510px;
+                top: 520px;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="button">Click Me</button>
+        <script type="text/javascript">
+            var w = 600,
+                h = 600;
+            var data;
+            var svg = d3.select("body").append("svg")
+                        .attr("width",w)
+                        .attr("height",h)
+                        .attr("transform","translate(20,20)")
+            function request_data(){
+                d3.csv("data.csv",function(d){
+                    data = d;
+                    var g = svg.selectAll("g")
+                                .data(d)
+                                .enter().append("g")
+                                .attr("class","points");
+                    scatter();
+                });
+
+            }
+            function request_data_1(){
+                d3.request("pca_data.csv?method=pca")
+                    .mimeType("text/csv")
+                    .get(function(d){
+                        data = cleandata(d.response);
+                        var g = svg.selectAll("g")
+                                    .data(data)
+                                    .enter().append("g")
+                                    .attr("class","points");
+                        scatter();
+                });
+            }
+            function cleandata(input){
+                data = [];
+                array = input.trim().split('\n');
+                for(i in array){
+                    if(i==0){
+                        data["column"] = [];
+                        seq = array[i].trim().split(',');
+                        for(j in seq){
+                            data["column"].push(seq[j]);
+                        }
+                    }else{
+                        obj = {};
+                        seq = array[i].trim().split(',');
+                        for(j in seq){
+                            obj[data["column"][j]] = seq[j];
+                        }
+                        data.push(obj);
+                    }
+                }
+                return data
+            }
+
+            function scatter(){
+                var g = svg.selectAll(".points");
+                yScale =  d3.scaleLinear().domain([0,1]).range([20,w-20]);
+                xScale =  d3.scaleLinear().domain([0,1]).range([h-20,20]);
+                g.selectAll("circle")
+                .data(data)
+                .enter().append("circle")
+                .attr("r",10)
+                .attr("transform", function(d){
+                    return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
+                });
+            }
+            function remove(){
+                svg.selectAll("g").remove();
+            }
+            var state = 0
+                d3.select("button")
+                    .on("click", function() {
+                        if(state == 0){
+                            remove();
+                            request_data();
+                        }
+                        if(state == 1){
+                            remove();
+                            request_data_1();
+                        }
+                        state = (state+1)%2;
+
+                    })
+        </script>
+    </body>
