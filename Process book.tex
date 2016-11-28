@@ -147,20 +147,20 @@ Through this selection, we will continue working on the Parallel plot and Stream
 \end{figure}
 \section{Implementation}
 \begin{description}
-\item [1. Parallel Plot]  \
+\item [1. Parallel Plot.] 
 The parallel plot shows the trend of our important features. Through the slide bar on parallel plot, people can select different values of certain features, the corresponding lines will be highlight.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{parallel.png}
 \caption{On the right side, we use parallel plot to demo the trend of our important features. This plot could interact with users. Users could select part of instance according to some feature values and highlight them. On the left, users could check the feature names and possible feature values.}
 \end{figure}
-\item [2. Dimension Reduction Projection]  \
-The data comes with many features. We project our data into low dimension by PCA, ISOMAP, MDS and TSNE, which people can select by click the button to change the dimension reduction method.
-Currently, we implement the server side code (server.py). We use python and web.py package to implement the server.
+\item [2. Dimension Reduction Projection.]  
+The data comes with many features. We project our data into low dimension by PCA, ISOMAP, MDS and TSNE, which people can select by click the button to change the dimension reduction method. \\
+Currently, we implement the server side code (server.py). We use python and web.py package to implement the server. When server receive a request from client, it read the server side data, then call dimension reduction function from scikit-learn, then return the dimension reduced data to client as response.\\
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{server.png}
-\caption{ Implement a server through web.py is easy. We first need to build a map to match the url request to its handler class. Web.py puts this mapping in a global tuple variable. Then, we implement every handler class, define a ``Get'' method to response get request. Each ``Get'' method will return the requested file.}
+\caption{ Implementing a server through web.py is easy. We first build a map matching the url request to its handler class. Web.py puts this mapping in a global tuple variable. Then, we implement every handler class, define a ``Get'' method to response get request. Each ``Get'' method will return the requested file.}
 \end{figure}
 \end{description}
 \section{Reference}
