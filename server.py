@@ -3,7 +3,6 @@ from collections import deque
 import numpy as np
 urls = (
     '/index.html', 'index',
-	'/fruit.csv', 'csv',
     '/try.html','try1',
     '/project.csv','projection_response',
     "/pca_data.csv","project_data",
@@ -15,11 +14,6 @@ app = web.application(urls, globals())
 class index:
     def GET(self):
 		with open(r"index.html",'r') as f:
-			return f.read()
-
-class csv:
-	def GET(self):
-		with open(r"fruit.csv",'r') as f:
 			return f.read()
 
 class try1():

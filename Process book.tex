@@ -8,9 +8,9 @@
 %\usepackage{wrapfig} % Allows in-line images such as the example fish picture
 \usepackage[pdftex]{graphicx} 
 \graphicspath{{scrachPlot/}} % declare the path(s) where your graphic files
-
+\author{Jiang Han, Haitao Liu, Chong Zhou}
 \begin{document}
-\title{Process book} 
+\title{Data Visualization Final Project Process book} 
 \date{November 6, 2016}
 \maketitle
 
@@ -149,12 +149,23 @@ Through this selection, we will continue working on the Parallel plot and Stream
 \begin{description}
 \item [1. Parallel Plot]  \
 The parallel plot shows the trend of our important features. Through the slide bar on parallel plot, people can select different values of certain features, the corresponding lines will be highlight.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{parallel.png}
+\caption{On the right side, we use parallel plot to demo the trend of our important features. This plot could interact with users. Users could select part of instance according to some feature values and highlight them. On the left, users could check the feature names and possible feature values.}
+\end{figure}
 \item [2. Dimension Reduction Projection]  \
 The data comes with many features. We project our data into low dimension by PCA, ISOMAP, MDS and TSNE, which people can select by click the button to change the dimension reduction method.
+Currently, we implement the server side code (server.py). We use python and web.py package to implement the server.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{server.png}
+\caption{ Implement a server through web.py is easy. We first need to build a map to match the url request to its handler class. Web.py puts this mapping in a global tuple variable. Then, we implement every handler class, define a ``Get'' method to response get request. Each ``Get'' method will return the requested file.}
+\end{figure}
 \end{description}
 \section{Reference}
 \begin{itemize}
 \item UCI data repo Link: {http://archive.ics.uci.edu/ml/datasets/Student+Performance}
-\item  USING DATA MINING TO PREDICT SECONDARY SCHOOL STUDENT PERFORMANCE Link: {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.540.8151&rep=rep1&type=pdf}
+\item  USING DATA MINING TO PREDICT SECONDARY SCHOOL STUDENT PERFORMANCE Link: {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.540.8151\&rep=rep1\&type=pdf}
 \end{itemize}
 \end{document}
