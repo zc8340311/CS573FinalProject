@@ -6,8 +6,9 @@ urls = (
 	'/fruit.csv', 'csv',
     '/try.html','try1',
     '/project.csv','projection_response',
-    '/data.csv',"response_data",
     "/pca_data.csv","project_data",
+    "/student-mat-readable.csv","response_data",
+    "/parallel.html","parallel"
 )
 app = web.application(urls, globals())
 
@@ -25,14 +26,14 @@ class try1():
     def GET(self):
         with open(r"try.html") as f:
             return f.read()
-
-class projection_response():
+class parallel():
     def GET(self):
-        pass
+        with open(r"parallel.html") as f:
+            return f.read()
 class response_data():
     def GET(self):
         print "data",web.input()
-        with open(r"data.csv") as f:
+        with open(r"./data/student-mat-readable.csv") as f:
             return f.read()
 class project_data():
     def GET(self):
