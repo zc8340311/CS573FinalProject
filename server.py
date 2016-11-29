@@ -37,7 +37,11 @@ class project_data():
                 head,data = self.to_nparray(f.read())
                 project_data = self.fake_pca(data)
                 return self.to_csvString(head,project_data)
-
+        if web.input()["method"]=="sklearnpca":
+            with open(r"./data/student-mat-readable.csv") as f:
+                head,data = self.to_nparray(f.read())
+                project_data = self.fake_pca(data)
+                return self.to_csvString(head,project_data)
     def to_nparray(self,data):
         lines = deque(data.strip().split('\n'))
         head = lines.popleft().split(',')
