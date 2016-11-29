@@ -525,20 +525,20 @@
                     .append("svg:g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .attr("border",1);
-        var svg6 = d3.select("#scatter2")
-                    .append("svg:svg")
-                    .attr("width",w22 + margin.left + margin.right)
-                    .attr("height",h22+ margin.top + margin.bottom)
-                    .append("svg:g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                    .attr("border",1);
-        var svg7 = d3.select("#projected")
-                    .append("svg:svg")
-                    .attr("width",w22 + margin.left + margin.right)
-                    .attr("height",h22+ margin.top + margin.bottom)
-                    .append("svg:g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-                    .attr("border",1);
+        // var svg6 = d3.select("#scatter2")
+        //             .append("svg:svg")
+        //             .attr("width",w22 + margin.left + margin.right)
+        //             .attr("height",h22+ margin.top + margin.bottom)
+        //             .append("svg:g")
+        //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        //             .attr("border",1);
+        // var svg7 = d3.select("#projected")
+        //             .append("svg:svg")
+        //             .attr("width",w22 + margin.left + margin.right)
+        //             .attr("height",h22+ margin.top + margin.bottom)
+        //             .append("svg:g")
+        //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        //             .attr("border",1);
         request_data_2();
         function request_data_1(){
             d3.xhr("/student-mat-readable.csv")
