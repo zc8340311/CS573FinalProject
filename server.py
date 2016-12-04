@@ -55,20 +55,26 @@ class project_data():
             head,data = self.to_nparray(f.read())
         head = ["d1","d2","color"]
         X,y = self.split(data)
-
+        X = self.feature_emph( X, web.input()["features"])
         if web.input()["method"]=="pca":
             project_data = self.pca(X)
         if web.input()["method"]=="lda":
-            project_data = self.lda(X)
+            project_data = self.lda(X,y[:,0])
         if web.input()["method"]=="tsne":
             project_data = self.tsne(X)
-        
+
         print web.input()["color"]
         if web.input()["color"]=="trend":
-            project_data = np.concatenate((project_data,y[:,0].reshape(y[:,0].size,1)),axis=1)
-        else:
+            project_data = np.concatenate((project_data,y[:,1].reshape(y[:,1].size,1)),axis=1)
+        elif web.input()["color"]=="give_up":
             project_data = np.concatenate((project_data,y[:,2].reshape(y[:,2].size,1)),axis=1)
         return self.to_csvString(head,project_data)
+    def feature_emph(self,data,weight):
+        weights = map(int,weight.split(","))
+        feature_locations = [2, 6, 7, 8, 9, 10, 15, 27, 29]
+        for w,location in zip(weights,feature_locations):
+            data[:,location] = data[:,location] * w
+        return data
     def split(self,data):
         return data[:,0:33],data[:,-4:-1]
     def to_nparray(self,data):
@@ -80,10 +86,9 @@ class project_data():
         p = PCA()
         project_d = p.fit_transform(data)
         return project_d
-    def lda(self,data):
+    def lda(self,data,y):
         lda = LDA(n_components=2)
-        fea = data.shape[1]
-        X_r2 = lda.fit(data[:,0:fea-1], data[:,-1]).transform(data[:,0:fea-1])
+        X_r2 = lda.fit(data, y).transform(data)
         return X_r2
     def tsne(self,data):
         tsne = TSNE()

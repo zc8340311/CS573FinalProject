@@ -104,8 +104,19 @@
           <div id="slider7">Fedu</div>
           <div id="slider8">Medu</div>
           <div id="slider9">Ach</div>
+          <select id="method">
+              <option value="pca">PCA</option>
+              <option value="mds">MDS</option>
+              <option value="tsne">TSNE</option>
+              <option value="Isomap">Isomap</option>
+          </select>
+          <select id="color">
+              <option value="trend">trend</option>
+              <option value="give_up">Give up</option>
+          </select>
+          <button id="submit">Change</button>
       </div>
-      <!----<div id = "scatter2"></div> --->
+      <!--<div id = "scatter2"></div> --->
       <div id = "projected"></div>
   </div>
     <script type="text/javascript">
@@ -550,54 +561,85 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .attr("border",1);
 
-        // var svg6 = d3.select("#control_panel")
-        //             .append("svg:svg")
-        //             .attr("width",w11 + margin.left + margin.right)
-        //             .attr("height",h22+ margin.top + margin.bottom)
-        //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        //             .attr("border",1);
-        // var svg6 = d3.select("#scatter")
-        //             .append("svg:svg")
-        //             .attr("width",w11 + margin.left + margin.right)
-        //             .attr("height",h22+ margin.top + margin.bottom)
-        //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        //             .attr("border",1);
+        var Absences=1,Reason=1,Support=1,Age=1,Fjob=1,Mjob=1,Fedu=1,Medu=1,Ach=1;
 
         var slider1 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
                         //.showRange(true)//.orientation("vertical");
         var slider2 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider3 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider4 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider5 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider6 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider7 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
                         //.showRange(true)
         var slider8 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
+
         var slider9 = d3.slider().value(1).min(1).max(8)
                         .tickValues([1,2,4,8]).stepValues([1,2,4,8])
-        d3.select('#slider1').call(slider1);
-        d3.select('#slider2').call(slider2);
-        d3.select('#slider3').call(slider3);
-        d3.select('#slider4').call(slider4);
-        d3.select('#slider5').call(slider5);
-        d3.select('#slider6').call(slider6);
-        d3.select('#slider7').call(slider7);
-        d3.select('#slider8').call(slider8);
-        d3.select('#slider9').call(slider9);
-        request_data_2();
+
+        d3.select('#slider1').call(slider1)
+        .on("slide", function(event, value) {
+                Absences = value
+        });
+        d3.select('#slider2').call(slider2)
+        .on("slide", function(evt, value) {
+                Reason = value
+        });
+        d3.select('#slider3').call(slider3)
+        .on("slide", function(evt, value) {
+                Support = value
+        });
+        d3.select('#slider4').call(slider4)
+        .on("slide", function(evt, value) {
+                Age = value
+        });
+        d3.select('#slider5').call(slider5)
+        .on("slide", function(evt, value) {
+                Fjob = value
+        });
+        d3.select('#slider6').call(slider6)
+        .on("slide", function(evt, value) {
+                Mjob = value
+        });
+        d3.select('#slider7').call(slider7)
+        .on("slide", function(evt, value) {
+                Fedu = value
+        });
+        d3.select('#slider8').call(slider8)
+        .on("slide", function(evt, value) {
+                Medu = value
+        });
+        d3.select('#slider9').call(slider9)
+        .on("change", function(evt, value) {
+                Ach = value
+        });
+
+        //
+        d3.select("#submit").on("click",function(){
+            var method = "method="+d3.select("#method").property("value");
+            var color = "color="+d3.select("#color").property("value");
+            var features = "features="+Absences+","+Reason+","+Support+","+Age+","+Fjob+","+Mjob+","+Fedu+","+Medu+","+Ach;
+            request_data_2(method+"&"+color+"&"+features);
+        });
         function request_data_1(){
             d3.xhr("/student-mat-readable.csv")
                 .get(function(error,data){
@@ -612,10 +654,14 @@
                     scatter2();
             });
         }
-        function request_data_2(){
-            d3.csv("/pca_data.csv?method=tsne&color=give_up")
+        function request_data_2(control){
+            var url = "/pca_data.csv?"+control
+            console.log(url)
+            d3.csv(url)
                 .get(function(error,data){
                     getdata = data
+                    console.log(getdata)
+                    svg5.selectAll(".points").remove();
                     var g = svg5.selectAll("g")
                                 .data(data)
                                 .enter().append("g")
@@ -623,25 +669,10 @@
                     op = d3.scale.linear()
                             .domain([0,5]).range([0,1]);
                     //scatter();
-                    scatter2();
+                    scatter();
             });
         }
         function scatter(){
-            var g = svg5.selectAll(".points");
-            yScale =  d3.scale.linear().domain([0,20]).range([20,w22-20]);
-            xScale =  d3.scale.linear().domain([0,20]).range([h22-20,20]);
-
-            g.selectAll("circle")
-            .data(data)
-            .enter().append("circle")
-            .attr("r",2)
-            .attr("transform", function(d){
-                return "translate(" + (xScale(d.G1)) + "," + yScale(d.G2) + ")";
-            })
-            //.style("fill",function(d){return color(d.romantic);})
-            //.style("opacity",function(d){return op(d.studytime);});
-        }
-        function scatter2(){
             var g = svg5.selectAll(".points");
 
             yScale =  d3.scale.linear().domain(d3.extent(getdata,function(d){return +d.d2})).range([10,w22-10]);
@@ -655,8 +686,9 @@
                 return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
             })
             .style("fill",function(d){return color(d.color);})
-            .style("opacity",function(d){return op(d.studytime);});
+            //.style("opacity",function(d){return op(d.studytime);});
         }
+
     </script>
   </body>
 </html>
