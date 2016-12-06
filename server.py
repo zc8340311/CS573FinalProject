@@ -12,8 +12,8 @@ urls = (
     "/student-mat-readable.csv","response_data",
     "/parallel.html","parallel",
     "/parallel_1.html","parallel1",
-    # "/stylesheets/d3.slider.css","css",
-    # "/javascripts/d3.slider.js","js"
+    "/stylesheets/d3.slider.css","css",
+    "/javascripts/d3.slider.js","js"
 )
 app = web.application(urls, globals())
 
@@ -76,7 +76,7 @@ class project_data():
             data[:,location] = data[:,location] * w
         return data
     def split(self,data):
-        return data[:,0:33],data[:,-4:-1]
+        return data[:,0:33],data[:,33:36]
     def to_nparray(self,data):
         lines = deque(data.strip().split('\n'))
         head = lines.popleft().split(',')
