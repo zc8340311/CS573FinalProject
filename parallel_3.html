@@ -32,10 +32,17 @@
             border:1px solid black;
             }
 
+<<<<<<< HEAD
         /*select{
             position:absolute;
             top:620px;
             left:760px;
+=======
+/*        selection{
+            position:absolute;
+            top:850px;
+            left:780px;
+>>>>>>> 4f1ffb4aec78e5b86b7f705c2c5922daa943ce73
         }*/
 
         #chart{
@@ -90,11 +97,20 @@
     <p> 2016Fall:  Han Jiang, Chong Zhou, Haitao Liu</h2>
   </div>
 
-  <div id = "parallel" style="text-align:center;"></div>
+  <div id = "parallel" style="text-align:center;">
+      <div id = "data_info">
+          <h3>Data Information</h3>
+          <p>This data includes student achievement in secondary education of two Portuguese schools in Math subject. Each student has 29 features, the details are followed.</p>
+      </div>
+  </div>
 
   <div id = "chart" style="text-align:center;">
-    <div id = "bar_numeric"></div>
-    <div id = "pie"></div>
+    <div id = "bar_numeric">
+        <p>A: 16-20, B:14-15, C:12-13, D:10-11, F:0-9</p>
+    </div>
+    <div id = "pie">
+        <p>Student Number vs Feature</p>
+    </div>
   </div>
   <div id="scatter">
       <div id = "control_panel">
@@ -189,6 +205,7 @@
 
     <script type="text/javascript">
 
+<<<<<<< HEAD
         // Add SVG to div chart
         var margin = {top:40,right:20,bottom:20,left:20};
         var w = 1100 - margin.left - margin.right;
@@ -221,6 +238,170 @@
                     .append("svg:g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .attr("border",1);
+=======
+
+    // Add SVG to div chart
+    var margin = {top:40,right:20,bottom:20,left:20};
+    var w = 1100 - margin.left - margin.right;
+    var h = 300 - margin.top - margin.bottom;
+    // var w1 = 186 - margin.left - margin.right;
+    // var w2 = 150 - margin.left - margin.right;
+    var w2 = 500 - margin.left - margin.right;
+    var h2 = 300 - margin.top - margin.bottom;
+
+    //var h = 300 - margin.top - margin.bottom;
+    var w3 = 500 - margin.left - margin.right;
+    var h3 = 300 - margin.top - margin.bottom;
+
+    var w4 = 1100 - margin.left - margin.right;
+    var h4 = 350 - margin.top - margin.bottom;
+
+    var svg1 = d3.select("#parallel")
+                .append("svg:svg")
+                .attr("width",w + margin.left + margin.right)
+                .attr("height",h+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1)
+                //.attr("aligh","center");
+
+    var svg2 = d3.select("#bar_numeric")
+                .append("svg:svg")
+                .attr("width",w2 + margin.left + margin.right)
+                .attr("height",h2+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var svg3 = d3.select("#pie")
+                .append("svg:svg")
+                .attr("width",w3 + margin.left + margin.right)
+                .attr("height",h3+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var svg4 = d3.select("#data_info")
+                .append("svg:svg")
+                .attr("width",w4 + margin.left + margin.right)
+                .attr("height",h4+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var data_detail = ["1. studytime - weekly study time","2. failures - number of past class failures","3. goout - going out with friends","4. Dalc - workday alcohol consumption","5. Walc - weekend alcohol consumption","6. absences - number of school absences","7. G1 - first period grade", "8. G2 - second period grade", "9. G3 - final grade", "10. school - student's school","11. sex - student’s sex","12. age - student’s age","13. address - student’s home address type","14. famsize - family size","15. Pstatus - parent’s cohabitation status","16. Medu - mother’s education","17. Fedu - father’s education","18. Mjob - mother’s job","19. Fjob - father’s job","20. reason - reason to choose this school","21. guardian - student’s guardian","22. schoolsup - extra educational support","23. famsup - family educational support","24. paid - extra paid classes within the course subject","25. activities - extra-curricular activities","26. nursery - attended nursery school","27. higher - wants to take higher education","28. internet - Internet access at home","29. romantic - with a romantic relationship"];
+
+    var x = d3.scale.ordinal().rangePoints([0, w], 1)
+        y = {},
+        dragging = {},
+        select_dimension = "",
+        select_info = [],
+        select_student = [];
+
+    var line = d3.svg.line(),
+        axis = d3.svg.axis().orient("left"),
+        background,
+        foreground;
+
+    var xbar = d3.scale.ordinal().rangeBands([0, w2],.1).domain(["A","B","C","D","F"]);
+    var ybar = d3.scale.linear()
+                        .range([h2,0])
+                        //.domain([0,150]);
+    //bar setup
+    var b_xAixs = d3.svg.axis()
+                    .scale(xbar)
+                    .orient("bottom")
+                    //.ticks(5);
+
+    var b_yAixs = d3.svg.axis()
+                        .scale(ybar)
+                        .orient("left")
+                        .ticks(5);
+
+    var b_color = d3.scale.ordinal().range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6"]);
+
+    //pie setup
+    var pie_color = d3.scale.ordinal().range(["#f0f9e8","#bae4bc","#7bccc4","#43a2ca","#0868ac"]);
+    var radius = Math.min(w3, h3) / 2;
+    var outerR = radius - 25;
+    var innerR = 0;
+    var arc = d3.svg.arc()
+                .outerRadius(outerR)
+                .innerRadius(innerR);
+
+    var labelArc = d3.svg.arc()
+                        .outerRadius(radius - 60)
+                        .innerRadius(radius - 60);
+    var pie = d3.layout.pie()
+                .sort(null);
+
+    var c_pie,Cate_info,s = "school";
+
+
+    var c; //initial setup for count number
+
+    //load data
+
+    d3.csv("student-mat-readable.csv",function(students){
+		 //console.log(students[0])
+        //display category variables
+        category_variable = ["school","sex","address","famsize","Pstatus","Mjob","Fjob","reason",
+                    "guardian","schoolsup","famsup","paid","activities","nursery","higher",
+                    "internet","romantic"];
+
+        select_student = students;
+       parallel(students);
+       count(students);
+       bar(c);
+
+       count_select_cate(s);
+       draw_pie();
+
+       //add data detail to div data_info
+
+       var feature_detail = svg4.selectAll("text")
+                                .data(data_detail)
+                                .enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d;
+                                })
+                                .attr("x",function(d,i){
+                                    if(i<15){
+                                    return 50;
+                                    }
+                                    else{return w4/2 + 50;}
+                                })
+                                .attr("y",function(d,i){
+                                    if(i<15){
+                                        return  i *20;
+                                    }
+                                    else{
+                                        return (i-15)*20;
+                                    }
+                                });
+//-------------------------------------------------------------------------------------
+//
+//               parallel coordinate function
+//
+//-------------------------------------------------------------------------------------
+        //Extract the list of dimensions and create a scale for each
+    function parallel(data){
+        x.domain(dimensions = d3.keys(data[0]).filter(function(d){
+
+            if (d === "studytime"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(data,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+            else if (d === "failures"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(data,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+>>>>>>> 4f1ffb4aec78e5b86b7f705c2c5922daa943ce73
 
         var svg3 = d3.select("#pie")
                     .append("svg:svg")
@@ -658,6 +839,7 @@
                 //     })
 
 
+<<<<<<< HEAD
 
             }
 
@@ -716,6 +898,34 @@
                             cate_info.push(p[d]);
                             //console.log(cate_info);
                         }
+=======
+                            })
+                            .attr("class","selection");
+
+
+        selection.selectAll("option")
+                    .data(category_variable)  
+                    .enter()
+                    .append("option")
+                    .attr("value",function(d){
+                        return d;
+                    })
+                    .text(function(d){return d});
+
+        //get unique value of picked category
+        function count_select_cate(d){
+            var cate_info = ["1"];
+            select_student.forEach(function(p){
+                    //console.log(p);
+                for(var i = 0; i<cate_info.length;i++){
+                    //console.log("ok")
+                    if(cate_info.indexOf(p[d]) !== -1 ){
+                        //console.log("this value is already there.");
+                    }
+                    else{
+                        cate_info.push(p[d]);
+                        //console.log(cate_info);
+>>>>>>> 4f1ffb4aec78e5b86b7f705c2c5922daa943ce73
                     }
                 })
                 //console.log(cate_info);
@@ -747,8 +957,41 @@
                             .data(pie(c_pie))
                             .enter()
                             .append("svg:g")
+<<<<<<< HEAD
                             .attr("class","arc")
                             .attr("transform", "translate(" + (outerR + 130) + ", " + (outerR+30) + ")");;
+=======
+                            .attr("class","rect");
+
+            rects.append("rect")
+                    .attr("x",w3 - 100)
+                    .attr("y",function(d,i){
+                        return h3/2 + i*20;
+                    })
+                    .attr("width",12)
+                    .attr("height",12)
+                    .style("fill",function(d,i){
+                        return pie_color(i);
+                    })
+
+            rects.append("text")
+                    .attr("x", w3 - 80)
+                    .attr("y", function(d,i){
+                        return h3/2 + 10 + i*20;
+                    })
+                    .text(function(d){return d})
+                    .style("font-size","13px")
+                    //.attr("class","title")
+
+        }
+
+        // svg3.append("text")
+        //     .attr("x",130)
+        //     .attr("y",0)
+        //     .text("Students Number vs Feature")
+        //     .style("font-size","17px")
+
+>>>>>>> 4f1ffb4aec78e5b86b7f705c2c5922daa943ce73
 
                 pieChart.append("path")
                         .attr("d",arc)
