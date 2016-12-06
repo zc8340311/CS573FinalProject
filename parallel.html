@@ -129,7 +129,7 @@
       <!--<div id = "scatter2"></div> --->
       <div id = "projected"></div>
   </div>
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
     // Add SVG to div chart
     var margin = {top:20,right:20,bottom:20,left:20};
     var w = 800 - margin.left - margin.right;
@@ -534,7 +534,7 @@
         }
      });
 
-    </script>
+    </script> -->
 
     <script type="text/javascript">
         var margin = {top:20,right:20,bottom:20,left:20};
@@ -696,7 +696,7 @@
             .attr("transform", function(d){
                 return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
             })
-            .style("fill",function(d){return color(d.color);})
+            .style("fill",function(d){return color_map(d.color);})
             //.style("opacity",function(d){return op(d.studytime);});
         }
 
