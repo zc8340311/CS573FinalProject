@@ -34,8 +34,8 @@
 
         select{
             position:absolute;
-            top:620px;
-            left:760px;
+            top:850px;
+            left:780px;
         }
 
         #chart{
@@ -75,16 +75,26 @@
     <p> 2016Fall:  Han Jiang, Chong Zhou, Haitao Liu</h2>
   </div>
 
-  <div id = "parallel" style="text-align:center;"></div>
+  <div id = "parallel" style="text-align:center;">
+      <div id = "data_info">
+          <h3>Data Information</h3>
+          <p>This data includes student achievement in secondary education of two Portuguese schools in Math subject. Each student has 29 features, the details are followed.</p>
+      </div>
+  </div>
 
   <div id = "chart" style="text-align:center;">
-    <div id = "bar_numeric"></div>
-    <div id = "pie"></div>
+    <div id = "bar_numeric">
+        <p>A: 16-20, B:14-15, C:12-13, D:10-11, F:0-9</p>
+    </div>
+    <div id = "pie">
+        <p>Student Number vs Feature</p>
+    </div>
   </div>
   
 
 
     <script type="text/javascript">
+
 
     // Add SVG to div chart
     var margin = {top:40,right:20,bottom:20,left:20};
@@ -99,8 +109,8 @@
     var w3 = 500 - margin.left - margin.right;
     var h3 = 300 - margin.top - margin.bottom;
 
-    // var w4 = 500 - margin.left - margin.right;
-    // var h4 = 300 - margin.top - margin.bottom;
+    var w4 = 1100 - margin.left - margin.right;
+    var h4 = 350 - margin.top - margin.bottom;
 
     var svg1 = d3.select("#parallel")
                 .append("svg:svg")
@@ -127,13 +137,15 @@
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .attr("border",1);
 
-    // var svg4 = d3.select("#bar_info")
-    //             .append("svg:svg")
-    //             .attr("width",w4 + margin.left + margin.right)
-    //             .attr("height",h4+ margin.top + margin.bottom)
-    //             .append("svg:g")
-    //             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-    //             .attr("border",1);
+    var svg4 = d3.select("#data_info")
+                .append("svg:svg")
+                .attr("width",w4 + margin.left + margin.right)
+                .attr("height",h4+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var data_detail = ["1. studytime - weekly study time","2. failures - number of past class failures","3. goout - going out with friends","4. Dalc - workday alcohol consumption","5. Walc - weekend alcohol consumption","6. absences - number of school absences","7. G1 - first period grade", "8. G2 - second period grade", "9. G3 - final grade", "10. school - student's school","11. sex - student’s sex","12. age - student’s age","13. address - student’s home address type","14. famsize - family size","15. Pstatus - parent’s cohabitation status","16. Medu - mother’s education","17. Fedu - father’s education","18. Mjob - mother’s job","19. Fjob - father’s job","20. reason - reason to choose this school","21. guardian - student’s guardian","22. schoolsup - extra educational support","23. famsup - family educational support","24. paid - extra paid classes within the course subject","25. activities - extra-curricular activities","26. nursery - attended nursery school","27. higher - wants to take higher education","28. internet - Internet access at home","29. romantic - with a romantic relationship"];
 
     var x = d3.scale.ordinal().rangePoints([0, w], 1)
         y = {},
@@ -159,7 +171,8 @@
 
     var b_yAixs = d3.svg.axis()
                         .scale(ybar)
-                        .orient("left");
+                        .orient("left")
+                        .ticks(5);
 
     var b_color = d3.scale.ordinal().range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6"]);
 
@@ -196,10 +209,33 @@
        parallel(students);
        count(students);
        bar(c);
-       //bar_text(c);
+
        count_select_cate(s);
        draw_pie();
 
+       //add data detail to div data_info
+
+       var feature_detail = svg4.selectAll("text")
+                                .data(data_detail)
+                                .enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d;
+                                })
+                                .attr("x",function(d,i){
+                                    if(i<15){
+                                    return 50;
+                                    }
+                                    else{return w4/2 + 50;}
+                                })
+                                .attr("y",function(d,i){
+                                    if(i<15){
+                                        return  i *20;
+                                    }
+                                    else{
+                                        return (i-15)*20;
+                                    }
+                                });
 //-------------------------------------------------------------------------------------
 //
 //               parallel coordinate function
@@ -688,11 +724,11 @@
 
         }
 
-        svg3.append("text")
-            .attr("x",130)
-            .attr("y",0)
-            .text("Students Number vs Feature")
-            .style("font-size","17px")
+        // svg3.append("text")
+        //     .attr("x",130)
+        //     .attr("y",0)
+        //     .text("Students Number vs Feature")
+        //     .style("font-size","17px")
 
 
 
