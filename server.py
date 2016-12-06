@@ -15,6 +15,7 @@ urls = (
     "/parallel.html","parallel",
     "/parallel_1.html","parallel1",
     "/parallel_3.html","parallel_3",
+    "/parallel_4.html","parallel_4"
 )
 app = web.application(urls, globals())
 
@@ -41,7 +42,10 @@ class parallel_3():
     def GET(self):
         with open(r"parallel_3.html") as f:
             return f.read()
-
+class parallel_4():
+    def GET(self):
+        with open(r"parallel_4.html") as f:
+            return f.read()
 class response_data():
     def GET(self):
         print "data",web.input()

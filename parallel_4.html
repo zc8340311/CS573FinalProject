@@ -59,11 +59,27 @@
             width:50%;
             float: left;
         }
-        
-        button{
+
+        /*button{
         position:absolute;
         margin-left: 12px;
         margin-top:12px;
+      }*/
+      #scatter{
+          width:100%;
+          margin: 3%;
+          float: left;
+      }
+      #control_panel{
+          width:65%;
+          float: left;
+      }
+      #projected{
+          width: 35%;
+          float: left;
+      }
+      #control_panel2{
+          float: left;
       }
 
     </style>
@@ -90,7 +106,96 @@
         <p>Student Number vs Feature</p>
     </div>
   </div>
-  
+  <div id="scatter">
+      <div id = "control_panel">
+          <div id="slider1">Absences Weight
+              <form>
+                  <input type="radio" name="Absences" value=1 checked> 1
+                  <input type="radio" name="Absences" value=2> 2
+                  <input type="radio" name="Absences" value=4> 4
+                  <input type="radio" name="Absences" value=8> 8
+              </form>
+          </div>
+          <div id="slider2">Reason Weight
+              <form>
+                  <input type="radio" name="Reason" value=1 checked> 1
+                  <input type="radio" name="Reason" value=2> 2
+                  <input type="radio" name="Reason" value=4> 4
+                  <input type="radio" name="Reason" value=8> 8
+              </form>
+          </div>
+          <div id="slider3">Support Weight
+              <form>
+                  <input type="radio" name="Support" value=1 checked> 1
+                  <input type="radio" name="Support" value=2> 2
+                  <input type="radio" name="Support" value=4> 4
+                  <input type="radio" name="Support" value=8> 8
+              </form>
+          </div>
+          <div id="slider4">Age Weight
+              <form>
+                  <input type="radio" name="Age" value=1 checked> 1
+                  <input type="radio" name="Age" value=2> 2
+                  <input type="radio" name="Age" value=4> 4
+                  <input type="radio" name="Age" value=8> 8
+              </form>
+          </div>
+          <div id="slider5">Fjob Weight
+              <form>
+                  <input type="radio" name="Fjob" value=1 checked> 1
+                  <input type="radio" name="Fjob" value=2> 2
+                  <input type="radio" name="Fjob" value=4> 4
+                  <input type="radio" name="Fjob" value=8> 8
+              </form>
+          </div>
+          <div id="slider6">Mjob Weight
+              <form>
+                  <input type="radio" name="Mjob" value=1 checked> 1
+                  <input type="radio" name="Mjob" value=2> 2
+                  <input type="radio" name="Mjob" value=4> 4
+                  <input type="radio" name="Mjob" value=8> 8
+              </form>
+          </div>
+          <div id="slider7">Fedu Weight
+              <form>
+                  <input type="radio" name="Fedu" value=1 checked> 1
+                  <input type="radio" name="Fedu" value=2> 2
+                  <input type="radio" name="Fedu" value=4> 4
+                  <input type="radio" name="Fedu" value=8> 8
+              </form>
+          </div>
+          <div id="slider8">Medu Weight
+              <form>
+                  <input type="radio" name="Medu" value=1 checked> 1
+                  <input type="radio" name="Medu" value=2> 2
+                  <input type="radio" name="Medu" value=4> 4
+                  <input type="radio" name="Medu" value=8> 8
+              </form>
+          </div>
+          <div id="slider9">Ach Weight
+              <form>
+                  <input type="radio" name="Ach" value=1 checked> 1
+                  <input type="radio" name="Ach" value=2> 2
+                  <input type="radio" name="Ach" value=4> 4
+                  <input type="radio" name="Ach" value=8> 8
+              </form>
+          </div>
+          <div id="control_panel2">
+              <select id="method">
+                  <option value="pca">PCA</option>
+                  <option value="mds">MDS</option>
+                  <option value="tsne">TSNE</option>
+                  <option value="isomap">Isomap</option>
+              </select>
+              <select id="color">
+                  <option value="trend">trend</option>
+                  <option value="give_up">Give up</option>
+              </select>
+              <button id="submit">Change</button>
+          </div>
+      </div>
+      <div id = "projected"></div>
+    </div>
 
 
     <script type="text/javascript">
@@ -379,20 +484,20 @@
         // Add and store a brush for each axis.
         g.append("svg:g")
             .attr("class", "brush_p")
-            .each(function(d) { 
+            .each(function(d) {
                 d3.select(this).call(y[d].brush = d3.svg.brush()
                                                     .y(y[d])
                                                     .on("brushstart", brushstart_p)
-                                                    .on("brush", brush_p)); 
+                                                    .on("brush", brush_p));
             })
             .selectAll("rect")
             .attr("x", -8)
             .attr("width", 16);
-    }           
+    }
 
 //-------------------------------------------------------------------------------------
 //               parallel brush
-//-------------------------------------------------------------------------------------  
+//-------------------------------------------------------------------------------------
         function position(d) {
             var v = dragging[d];
             return v == null ? x(d) : v;
@@ -447,7 +552,7 @@
             //return c
 
             //count();
-            //console.log(c);          
+            //console.log(c);
             //bar(c);
 
             count(select_student);
@@ -461,11 +566,11 @@
                 //console.log(s);
             });
             //count_select_cate(s);
-            //draw_pie();          
-            
+            //draw_pie();
+
         }
         //console.log(c);
-        
+
         function count(data){
                         //divide student grade in A, B, C, D, and F
             //G3: A:16-20, B: 14-15, C: 12-13, D: 10-11, F:0-9
@@ -503,7 +608,7 @@
            //console.log(c);
 
         }
-        
+
         function bar(data){
             svg2.selectAll(".bar")//.transition()
                 .remove();
@@ -592,7 +697,7 @@
 
 
 
-        } 
+        }
 
         //function bar_text(data){
             // svg2.selectAll(".barLabel").remove();
@@ -610,7 +715,7 @@
             //     .attr("y",0)
             //     .attr("font-size","11px")
             //     .attr("font-family","sans-serif");
-        //}   
+        //}
 
         var selection = d3.select("#pie")
                             //.append("div")
@@ -627,7 +732,7 @@
 
 
         selection.selectAll("option")
-                    .data(category_variable)  
+                    .data(category_variable)
                     .enter()
                     .append("option")
                     .attr("value",function(d){
@@ -724,27 +829,102 @@
 
         }
 
-        // svg3.append("text")
-        //     .attr("x",130)
-        //     .attr("y",0)
-        //     .text("Students Number vs Feature")
-        //     .style("font-size","17px")
-
-
-
-
-        
-
-
-
 
      });
-    
-	
+    </script>
+    <script type="text/javascript">
+        var margin = {top:20,right:20,bottom:20,left:20};
+        var w11 = 800 - margin.left - margin.right
+        var w22 = 400 - margin.left - margin.right;
+        var h22 = 400 - margin.top - margin.bottom;
+        var op;
+        var getdata;
+        color_map = d3.scale.ordinal().range(["orange","blue"])
 
+        function cleandata(input){
+            data = [];
+            array = input.trim().split('\n');
+            for(i in array){
+                if(i==0){
+                    data["column"] = [];
+                    seq = array[i].trim().split(',');
+                    for(j in seq){
+                        data["column"].push(seq[j]);
+                    }
+                }else{
+                    obj = {};
+                    seq = array[i].trim().split(',');
+                    for(j in seq){
+                        obj[data["column"][j]] = seq[j];
+                    }
+                    data.push(obj);
+                }
+            }
+            return data
+        }
+
+        var svg5 = d3.select("#projected")
+                    .append("svg:svg")
+                    .attr("width",w22 + margin.left + margin.right)
+                    .attr("height",h22+ margin.top + margin.bottom)
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .attr("border",1);
+
+        var Absences=1,Reason=1,Support=1,Age=1,Fjob=1,Mjob=1,Fedu=1,Medu=1,Ach=1;
+
+        //
+        d3.select("#submit").on("click",function(){
+            var method = "method="+d3.select("#method").property("value");
+            var color = "color="+d3.select("#color").property("value");
+            Absences = d3.select('input[name="Absences"]:checked').property("value");
+            Reason = d3.select('input[name="Reason"]:checked').property("value");
+            Support = d3.select('input[name="Support"]:checked').property("value");
+            Age = d3.select('input[name="Age"]:checked').property("value");
+            Fjob = d3.select('input[name="Fjob"]:checked').property("value");
+            Mjob = d3.select('input[name="Mjob"]:checked').property("value");
+            Fedu = d3.select('input[name="Fedu"]:checked').property("value");
+            Medu = d3.select('input[name="Medu"]:checked').property("value");
+            Ach = d3.select('input[name="Ach"]:checked').property("value");
+            var features = "features="+Absences+","+Reason+","+Support+","+Age+","+Fjob+","+Mjob+","+Fedu+","+Medu+","+Ach;
+            request_data(method+"&"+color+"&"+features);
+        });
+        function request_data(control){
+            var url = "/pca_data.csv?"+control
+            console.log(url)
+            d3.csv(url)
+                .get(function(error,data){
+                    getdata = data
+                    console.log(getdata)
+                    svg5.selectAll(".points").remove();
+                    var g = svg5.selectAll("g")
+                                .data(data)
+                                .enter().append("g")
+                                .attr("class","points");
+                    op = d3.scale.linear()
+                            .domain([0,5]).range([0,1]);
+                    //scatter();
+                    scatter();
+            });
+        }
+        function scatter(){
+            var g = svg5.selectAll(".points");
+
+            yScale =  d3.scale.linear().domain(d3.extent(getdata,function(d){return +d.d2})).range([10,w22-10]);
+            xScale =  d3.scale.linear().domain(d3.extent(getdata,function(d){return +d.d1})).range([h22-10,10]);
+
+            g.selectAll("circle")
+            .data(getdata)
+            .enter().append("circle")
+            .attr("r",3)
+            .attr("transform", function(d){
+                return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
+            })
+            .style("fill",function(d){return color_map(d.color);})
+        }
 
     </script>
 
+
+
   </body>
 </html>
-

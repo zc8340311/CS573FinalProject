@@ -116,10 +116,10 @@
       <div id = "control_panel">
           <div id="slider1">Absences Weight
               <form>
-                  <input type="radio" name="Absencesweight" value=1 checked> 1
-                  <input type="radio" name="Absencesweight" value=2> 2
-                  <input type="radio" name="Absencesweight" value=4> 4
-                  <input type="radio" name="Absencesweight" value=8> 8
+                  <input type="radio" name="Absences" value=1 checked> 1
+                  <input type="radio" name="Absences" value=2> 2
+                  <input type="radio" name="Absences" value=4> 4
+                  <input type="radio" name="Absences" value=8> 8
               </form>
           </div>
           <div id="slider2">Reason Weight
@@ -904,7 +904,7 @@
 
 
         selection.selectAll("option")
-                    .data(category_variable)  
+                    .data(category_variable)
                     .enter()
                     .append("option")
                     .attr("value",function(d){
