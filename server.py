@@ -8,14 +8,10 @@ from sklearn.manifold import MDS
 from sklearn.manifold import Isomap
 urls = (
     '/index.html', 'index',
-    '/try.html','try1',
     '/project.csv','projection_response',
     "/pca_data.csv","project_data",
     "/student-mat-readable.csv","response_data",
-    "/parallel.html","parallel",
-    "/parallel_1.html","parallel1",
-    "/parallel_3.html","parallel_3",
-    "/parallel_4.html","parallel_4"
+    "/parallel_6.html","parallel_6"
 )
 app = web.application(urls, globals())
 
@@ -29,22 +25,9 @@ class try1():
         with open(r"try.html") as f:
             return f.read()
 
-class parallel():
+class parallel_6():
     def GET(self):
-        with open(r"parallel.html") as f:
-            return f.read()
-class parallel1():
-    def GET(self):
-        with open(r"parallel_1.html") as f:
-            return f.read()
-
-class parallel_3():
-    def GET(self):
-        with open(r"parallel_3.html") as f:
-            return f.read()
-class parallel_4():
-    def GET(self):
-        with open(r"parallel_4.html") as f:
+        with open(r"parallel_6.html") as f:
             return f.read()
 class response_data():
     def GET(self):

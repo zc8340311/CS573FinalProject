@@ -60,14 +60,18 @@
       }*/
       #scatter{
           width:100%;
-          margin: 3%;
+          margin: 8%;
           float: left;
       }
       #control_panel{
-          width:65%;
+          width:20%;
           float: left;
       }
       #projected{
+          width: 35%;
+          float: left;
+      }
+      #projectedHistory{
           width: 35%;
           float: left;
       }
@@ -77,7 +81,11 @@
 /*      text{
             font-size: 14px;
       } */
-
+      #dimension_reduction{
+          width:1102px;
+          margin: 0 auto;
+          float: middle;
+      }
       .content{
         width:1102px;
         margin: 0 auto;
@@ -90,15 +98,12 @@
       #pieselection{
             position:absolute;
             bottom:10px;
-            right:10px;        
+            right:10px;
       }
       #data_info{
-            padding:40px 0;        
+            padding:40px 0;
       }
-      #dimension_reduction{
-            width:100%;
-            float: middle;
-      }          
+
 
     </style>
 
@@ -219,7 +224,8 @@
               <button id="submit">Change</button>
           </div>
       </div>
-      <div id = "projected"></div>
+      <div id = "projected">Current Projection Result</div>
+      <div id = "projectedHistory">Last Projection</div>
     </div>
 
 
@@ -332,7 +338,7 @@
 
     //load data
 
-    d3.csv("student-mat-readable.csv",function(students){
+    d3.csv("/student-mat-readable.csv",function(students){
 		 //console.log(students[0])
         //display category variables
         category_variable = ["school","sex","address","famsize","Pstatus","Mjob","Fjob","reason",
@@ -546,11 +552,11 @@
                 .on("click",function(){
 
                     if(d3.select(this).attr("class") == "nonclick"){
-                    
+
                       d3.selectAll(".clicked")
                             .attr("fill","black")
                             .attr("font-size","15px")
-                            .attr("class","nonclick");//when cilck other text, the clicked text become unclicked. 
+                            .attr("class","nonclick");//when cilck other text, the clicked text become unclicked.
                       //select_label = d3.select(this).text();
                       //console.log(select_label);
                       //select_index = data_feature.indexOf(select_label);
@@ -560,11 +566,11 @@
 
                       d3.select(this).attr("fill","orange")
                         .attr("class","clicked")
-                        .attr("font-size","22px");                     
+                        .attr("font-size","22px");
                     }else{
                       d3.select(this).attr("class","nonclick")
                         .attr("font-size","15px")
-                        .attr("fill","black");                      
+                        .attr("fill","black");
                     }
 
 
@@ -904,11 +910,13 @@
     <script type="text/javascript">
         var margin = {top:20,right:20,bottom:20,left:20};
         var w11 = 800 - margin.left - margin.right
-        var w22 = 400 - margin.left - margin.right;
-        var h22 = 400 - margin.top - margin.bottom;
+        var w22 = 370 - margin.left - margin.right;
+        var h22 = 370 - margin.top - margin.bottom;
         var op;
         var getdata;
-        color_map = d3.scale.ordinal().range(["orange","blue"])
+        var historydata;
+        var submit_times = 0;
+        color_map = d3.scale.ordinal().range(["#fb6a4a","#756bb1"])
 
         function cleandata(input){
             data = [];
@@ -939,9 +947,14 @@
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .attr("border",1);
 
+        var svg6 = d3.select("#projectedHistory")
+                    .append("svg:svg")
+                    .attr("width",w22 + margin.left + margin.right)
+                    .attr("height",h22+ margin.top + margin.bottom)
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                    .attr("border",1);
         var Absences=1,Reason=1,Support=1,Age=1,Fjob=1,Mjob=1,Fedu=1,Medu=1,Ach=1;
 
-        //
         d3.select("#submit").on("click",function(){
             var method = "method="+d3.select("#method").property("value");
             var color = "color="+d3.select("#color").property("value");
@@ -962,17 +975,26 @@
             console.log(url)
             d3.csv(url)
                 .get(function(error,data){
-                    getdata = data
-                    console.log(getdata)
-                    svg5.selectAll(".points").remove();
+
+                    svg5.selectAll("*").remove();
+                    svg6.selectAll("*").remove();
+
+                    if (submit_times>0){
+                        historydata = getdata;
+                        console.log(historydata);
+                        var g_h = svg6.selectAll("g")
+                                      .append("g")
+                                      .attr("class","history_points");
+                        history_scatter();
+                    }
+                    getdata = data;
                     var g = svg5.selectAll("g")
-                                .data(data)
-                                .enter().append("g")
+                                .append("g")
                                 .attr("class","points");
                     op = d3.scale.linear()
                             .domain([0,5]).range([0,1]);
-                    //scatter();
                     scatter();
+                    submit_times++;
             });
         }
         function scatter(){
@@ -981,19 +1003,30 @@
             yScale =  d3.scale.linear().domain(d3.extent(getdata,function(d){return +d.d2})).range([10,w22-10]);
             xScale =  d3.scale.linear().domain(d3.extent(getdata,function(d){return +d.d1})).range([h22-10,10]);
 
-            g.selectAll("circle")
-            .data(getdata)
-            .enter().append("circle")
-            .attr("r",3)
+            g.data(getdata)
+            .enter()
+            .append("circle")
+            .attr("r",4)
             .attr("transform", function(d){
                 return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
             })
-            .style("fill",function(d){return color_map(d.color);})
+            .style("fill",function(d){return color_map(d.color);});
         }
+        function history_scatter(){
+            var g = svg6.selectAll(".history_points");
+            yScale =  d3.scale.linear().domain(d3.extent(historydata,function(d){return +d.d2})).range([10,w22-10]);
+            xScale =  d3.scale.linear().domain(d3.extent(historydata,function(d){return +d.d1})).range([h22-10,10]);
+            g.data(historydata)
+            .enter()
+            .append("circle")
+            .attr("r",4)
+            .attr("transform", function(d){
+                return "translate(" + (xScale(d.d1)) + "," + yScale(d.d2) + ")";
+            })
+            .style("fill",function(d){return color_map(d.color);});
 
+        }
     </script>
-
-
 
   </body>
 </html>
