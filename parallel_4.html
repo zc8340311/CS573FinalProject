@@ -72,9 +72,13 @@
       #control_panel2{
           float: left;
       }
-      text{
+/*      text{
             font-size: 14px;
+<<<<<<< HEAD
       }
+=======
+      } */
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
 
       .content{
         width:1102px;
@@ -221,6 +225,7 @@
     <script type="text/javascript">
 
 
+<<<<<<< HEAD
         // Add SVG to div chart
         var margin = {top:40,right:20,bottom:20,left:20};
         var w = 1100 - margin.left - margin.right;
@@ -228,6 +233,210 @@
 
         var w2 = 500 - margin.left - margin.right;
         var h2 = 300 - margin.top - margin.bottom;
+=======
+    // Add SVG to div chart
+    var margin = {top:40,right:20,bottom:20,left:20};
+    var w = 1100 - margin.left - margin.right;
+    var h = 300 - margin.top - margin.bottom;
+    // var w1 = 186 - margin.left - margin.right;
+    // var w2 = 150 - margin.left - margin.right;
+    var w2 = 500 - margin.left - margin.right;
+    var h2 = 300 - margin.top - margin.bottom;
+
+    //var h = 300 - margin.top - margin.bottom;
+    var w3 = 500 - margin.left - margin.right;
+    var h3 = 300 - margin.top - margin.bottom;
+
+    var w4 = 1100 - margin.left - margin.right;
+    var h4 = 350 - margin.top - margin.bottom;
+
+    var svg1 = d3.select("#parallel")
+                .append("svg:svg")
+                .attr("width",w + margin.left + margin.right)
+                .attr("height",h+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1)
+                //.attr("aligh","center");
+
+    var svg2 = d3.select("#bar_numeric")
+                .append("svg:svg")
+                .attr("width",w2 + margin.left + margin.right)
+                .attr("height",h2+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var svg3 = d3.select("#pie")
+                .append("svg:svg")
+                .attr("width",w3 + margin.left + margin.right)
+                .attr("height",h3+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var svg4 = d3.select("#data_info")
+                .append("svg:svg")
+                .attr("width",w4 + margin.left + margin.right)
+                .attr("height",h4+ margin.top + margin.bottom)
+                .append("svg:g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+                .attr("border",1);
+
+    var data_detail = ["1. studytime - weekly study time","2. failures - number of past class failures","3. goout - going out with friends","4. Dalc - workday alcohol consumption","5. Walc - weekend alcohol consumption","6. absences - number of school absences","7. G1 - first period grade", "8. G2 - second period grade", "9. G3 - final grade", "10. school - student's school","11. sex - student’s sex","12. age - student’s age","13. address - student’s home address type","14. famsize - family size","15. Pstatus - parent’s cohabitation status","16. Medu - mother’s education","17. Fedu - father’s education","18. Mjob - mother’s job","19. Fjob - father’s job","20. reason - reason to choose this school","21. guardian - student’s guardian","22. schoolsup - extra educational support","23. famsup - family educational support","24. paid - extra paid classes within the course subject","25. activities - extra-curricular activities","26. nursery - attended nursery school","27. higher - wants to take higher education","28. internet - Internet access at home","29. romantic - with a romantic relationship"];
+
+    var data_feature = ["studytime", "failures", "goout", "Dalc", "Walc","absences", "G1", "G2", "G3", "school", "sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "Mjob", "Fjob","reason","guardian", "schoolsup", "famsup", "paid", "activities", "nursery", "higher", "internet", "internet"];
+
+    var grade = ["A: 16-20", "B: 14-15", "C: 12-13", "D: 10-11", "F:0-9"];
+
+    var x = d3.scale.ordinal().rangePoints([0, w], 1)
+        y = {},
+        dragging = {},
+        select_dimension = "",
+        select_info = [],
+        select_student = [];
+
+    var line = d3.svg.line(),
+        axis = d3.svg.axis().orient("left"),
+        background,
+        foreground;
+
+    var xbar = d3.scale.ordinal().rangeBands([0, w2-100],.1).domain(["A","B","C","D","F"]);
+    var ybar = d3.scale.linear()
+                        .range([h2,0])
+                        //.domain([0,150]);
+    //bar setup
+    var b_xAixs = d3.svg.axis()
+                    .scale(xbar)
+                    .orient("bottom")
+                    //.ticks(5);
+
+    var b_yAixs = d3.svg.axis()
+                        .scale(ybar)
+                        .orient("left")
+                        .ticks(5);
+
+    var b_color = d3.scale.ordinal().range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6"]);
+
+    //pie setup
+    var pie_color = d3.scale.ordinal().range(["#f0f9e8","#bae4bc","#7bccc4","#43a2ca","#0868ac"]);
+    var radius = Math.min(w3, h3) / 2;
+    var outerR = radius - 25;
+    var innerR = 0;
+    var arc = d3.svg.arc()
+                .outerRadius(outerR)
+                .innerRadius(innerR);
+
+    var labelArc = d3.svg.arc()
+                        .outerRadius(radius - 60)
+                        .innerRadius(radius - 60);
+    var pie = d3.layout.pie()
+                .sort(null);
+
+    var c_pie,Cate_info,s = "school";
+
+
+    var c; //initial setup for count number
+
+    //load data
+
+    d3.csv("student-mat-readable.csv",function(students){
+		 //console.log(students[0])
+        //display category variables
+        category_variable = ["school","sex","address","famsize","Pstatus","Mjob","Fjob","reason",
+                    "guardian","schoolsup","famsup","paid","activities","nursery","higher",
+                    "internet","romantic"];
+
+        select_student = students;
+       parallel(students);
+       count(students);
+       bar(c);
+
+       count_select_cate(s);
+       draw_pie();
+
+       //add data detail to div data_info
+
+       var feature_detail = svg4.selectAll("text")
+                                .data(data_detail)
+                                .enter()
+                                .append("text")
+                                .text(function(d){
+                                    return d;
+                                })
+                                .attr("x",function(d,i){
+                                    if(i<15){
+                                    return 50;
+                                    }
+                                    else{return w4/2 + 50;}
+                                })
+                                .attr("y",function(d,i){
+                                    if(i<15){
+                                        return  i *20;
+                                    }
+                                    else{
+                                        return (i-15)*20;
+                                    }
+                                })
+                                .attr("font-size","15px");
+        // var a = feature_detail[0][0];
+        // console.log(a);
+
+
+        feature_detail.on("mouseover",function(){
+            d3.select(this)//.transition()
+                .attr("font-size","22px")
+                            .attr("fill","orange");
+                })
+                .on("mouseout",function(){
+                    if(d3.select(this).attr("class") == "clicked"){
+                        return;
+                    }
+                    else{d3.select(this).transition()
+                            .attr("font-size","15px")
+                            .attr("fill","black");}
+                });
+//-------------------------------------------------------------------------------------
+//
+//               parallel coordinate function
+//
+//-------------------------------------------------------------------------------------
+        //Extract the list of dimensions and create a scale for each
+    function parallel(data){
+        x.domain(dimensions = d3.keys(data[0]).filter(function(d){
+
+            if (d === "studytime"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(data,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+            else if (d === "failures"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(data,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+
+            else if (d === "Fedu"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(data,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+            else if (d === "Dalc"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(students,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+            else if (d === "Walc"){
+                y[d] = d3.scale.linear()
+                            .domain(d3.extent(students,function(p){return +p[d];}))
+                            //.domain([0,20])
+                            .range([h,0]);
+            }
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
 
         var w3 = 500 - margin.left - margin.right;
         var h3 = 300 - margin.top - margin.bottom;
@@ -264,8 +473,123 @@
                     .attr("width",w4 + margin.left + margin.right)
                     .attr("height",h4+ margin.top + margin.bottom)
                     .append("svg:g")
+<<<<<<< HEAD
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                     .attr("border",1);
+=======
+                    .attr("class","dimension")
+                    .attr("transform", function(d) { return "translate(" + x(d) + ")"; })
+                    .call(d3.behavior.drag()
+                        .origin(function(d) { return {x: x(d)} ;})//d is the element in dimensions
+                        .on("dragstart", function(d) {
+                            dragging[d] = x(d);
+                            background.attr("visibility", "hidden");
+                        })
+                        .on("drag", function(d) {
+                            dragging[d] = Math.min(w, Math.max(0, d3.event.x));
+                           // console.log(dragging);
+                            foreground.attr("d", path);
+                            dimensions.sort(function(a, b) { return position(a) - position(b); });
+                            x.domain(dimensions);
+                            g.attr("transform", function(d) { return "translate(" + position(d) + ")"; })
+                        })
+                        .on("dragend", function(d) {
+                            delete dragging[d];
+                            transition(d3.select(this)).attr("transform", "translate(" + x(d) + ")");
+                            transition(foreground)
+                                .attr("d", path);
+                            background
+                                .attr("d", path)
+                                .transition()
+                                .delay(500)
+                                .duration(0)
+                                .attr("visibility", null);
+                        }));
+        //console.log(dragging)
+        // Add an axis and title
+        g.append("svg:g")
+            .attr("class","axis")
+            .each(function(d){
+                d3.select(this).call(axis.scale(y[d]));
+            })
+
+        var parallel_label = g.append("svg:text")
+                              .attr("text-anchor", "middle")
+                              .attr("y", -9)
+                              .text(String)
+                              .attr("fill","black")
+                              .attr("font-size","15px")
+                              .attr("class","nonclick");
+
+        parallel_label.on("mouseover",function(){
+            d3.select(this)//.transition()
+                .attr("font-size","22px")
+                            .attr("fill","orange");
+                })
+                .on("mouseout",function(){
+                    if(d3.select(this).attr("class") == "clicked"){
+                        return;
+                    }
+                    else{d3.select(this).transition()
+                            .attr("font-size","15px")
+                            .attr("fill","black");}
+                })
+                .on("click",function(){
+
+                    if(d3.select(this).attr("class") == "nonclick"){
+                    
+                      d3.selectAll(".clicked")
+                            .attr("fill","black")
+                            .attr("font-size","15px")
+                            .attr("class","nonclick");//when cilck other text, the clicked text become unclicked. 
+                      //select_label = d3.select(this).text();
+                      //console.log(select_label);
+                      //select_index = data_feature.indexOf(select_label);
+
+                      //console.log(select_index);
+                      //console.log(data_detail[0][select_index])//.attr("fill", "orange");
+
+                      d3.select(this).attr("fill","orange")
+                        .attr("class","clicked")
+                        .attr("font-size","22px");                     
+                    }else{
+                      d3.select(this).attr("class","nonclick")
+                        .attr("font-size","15px")
+                        .attr("fill","black");                      
+                    }
+
+
+                })
+
+
+            // .append("svg:text")
+            // .attr("text-anchor", "middle")
+            // .attr("y", -9)
+            // .text(String)
+            // .attr("fill","black")
+            // .attr("font-size",13);
+
+        // Add and store a brush for each axis.
+        g.append("svg:g")
+            .attr("class", "brush_p")
+            .each(function(d) {
+                d3.select(this).call(y[d].brush = d3.svg.brush()
+                                                    .y(y[d])
+                                                    .on("brushstart", brushstart_p)
+                                                    .on("brush", brush_p));
+            })
+            .selectAll("rect")
+            .attr("x", -8)
+            .attr("width", 16);
+    }
+
+//-------------------------------------------------------------------------------------
+//               parallel brush
+//-------------------------------------------------------------------------------------
+        function position(d) {
+            var v = dragging[d];
+            return v == null ? x(d) : v;
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
 
         var data_detail = ["1. studytime - weekly study time","2. failures - number of past class failures","3. goout - going out with friends","4. Dalc - workday alcohol consumption","5. Walc - weekend alcohol consumption","6. absences - number of school absences","7. G1 - first period grade", "8. G2 - second period grade", "9. G3 - final grade", "10. school - student's school","11. sex - student’s sex","12. age - student’s age","13. address - student’s home address type","14. famsize - family size","15. Pstatus - parent’s cohabitation status","16. Medu - mother’s education","17. Fedu - father’s education","18. Mjob - mother’s job","19. Fjob - father’s job","20. reason - reason to choose this school","21. guardian - student’s guardian","22. schoolsup - extra educational support","23. famsup - family educational support","24. paid - extra paid classes within the course subject","25. activities - extra-curricular activities","26. nursery - attended nursery school","27. higher - wants to take higher education","28. internet - Internet access at home","29. romantic - with a romantic relationship"];
 
@@ -576,6 +900,42 @@
                     .remove();
                 svg2.selectAll(".title").remove();
 
+<<<<<<< HEAD
+=======
+        function bar(data){
+            svg2.selectAll(".bar")//.transition()
+                .remove();
+            svg2.selectAll(".axis")//.transition()
+                .remove();
+            svg2.selectAll(".title").remove();
+            //svg2.selectAll(".barLabel").remove();
+
+            ybar.domain([0,d3.max(data,function(d){return d;})])
+            var bars = svg2.append("svg:g")
+                            .attr("class","bar")
+                            .selectAll("rect")
+                            .data(data)
+                            .enter()
+                            .append("rect")
+                            .attr("x",function(d,i){
+                                return 25 + i*70;
+                            })
+                            .attr("y",function(d){
+                                //return h2 - ybar(d);
+                                return  ybar(d);
+                                //return d;
+                            })
+                            .attr("width",30)
+                            .attr("height",function(d){
+                                return h2 - ybar(d);
+                                //return d;
+                            })
+                            .attr("fill",function(d,i){
+                                return b_color(i);
+                            })
+                            .attr("opacity",1);
+
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
 
                 ybar.domain([0,d3.max(data,function(d){return d;})])
                 var bars = svg2.append("svg:g")
@@ -601,6 +961,7 @@
                                 })
                                 .attr("opacity",1);
 
+<<<<<<< HEAD
                 bars.append("text")
                         .attr("x",function(d,i){
                             return 40 + i*90;
@@ -656,15 +1017,89 @@
                         }
                     }
                 })
+=======
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
 
                 Cate_info = [];
                 for(var i = 1; i<cate_info.length;i++){
                     Cate_info.push(cate_info[i]);
                 }
 
+<<<<<<< HEAD
                 c_pie = [];
                 for(var i = 0; i < Cate_info.length;i++){
                     c_pie.push(0);
+=======
+        var bar_legend = svg2.append("svg:g")
+                              .attr("class","bar_legend")
+                              .selectAll("rect")
+                              .data(grade)
+                              .enter()
+                              .append("rect")
+                              .attr("x",w2 - 70)
+                              .attr("y",function(d,i){
+                                return 100 + i*18;
+                              })
+                              .attr("width",10)
+                              .attr("height",10)
+                              .attr("fill", function(d,i){
+                                return b_color(i);
+                              });
+
+        var bar_legend_text = svg2.append("svg:g")
+                                  .attr("class","bar_legend_text")
+                                  .selectAll("text-anchor")
+                                  .data(grade)
+                                  .enter()
+                                  .append("text")
+                                  .attr("x",w2 - 57)
+                                  .attr("y",function(d,i){
+                                    return 110 + i*18;
+                                  })
+                                  .text(function(d){
+                                    return d;
+                                  })
+                                  .style("font-size","12px")
+
+
+        var selection = d3.select("#pie")
+                            //.append("div")
+                            .append("select")
+                            .attr("id","pieselection")
+                            .on("change",function(){
+                                var s = this.value;
+                                count_select_cate(s);
+                                //svg3.selectAll(".arc").remove();
+                                console.log(s);
+                                draw_pie();
+
+                            });
+
+
+        selection.selectAll("option")
+                    .data(category_variable)
+                    .enter()
+                    .append("option")
+                    .attr("value",function(d){
+                        return d;
+                    })
+                    .text(function(d){return d});
+
+        //get unique value of picked category
+        function count_select_cate(d){
+            var cate_info = ["1"];
+            select_student.forEach(function(p){
+                    //console.log(p);
+                for(var i = 0; i<cate_info.length;i++){
+                    //console.log("ok")
+                    if(cate_info.indexOf(p[d]) !== -1 ){
+                        //console.log("this value is already there.");
+                    }
+                    else{
+                        cate_info.push(p[d]);
+                        //console.log(cate_info);
+                    }
+>>>>>>> 66571ee5cf271d906424d1bc9bb698dd7c95f522
                 }
 
                 for(var i = 0; i< Cate_info.length;i++){
