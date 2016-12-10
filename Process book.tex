@@ -145,7 +145,9 @@ Through this selection, we will continue working on the Parallel plot and Stream
 \includegraphics[scale=0.23]{layout_design.jpg}
 \caption{After discussion mentioned above, we plan to set our final visualization layout as following.  Parallel plot and projected scatter plot (or graph plot) are placed on the left side. Feature choice buttons that allow users to customize the stream plot are located on the right side top. Below this control panel, it is the stream plot which features are controlled by above buttons. On the right bottom, a zoom-in text area show the result  of interaction in the left part. If users click any points in scatter plots or lines in parallel plot, the instance detail should be shown in this area.}
 \end{figure}
+
 \section{Implementation}
+\subsection{Version1}
 \begin{description}
 \item [1. Parallel Plot.] 
 The parallel plot shows the trend of our important features. Through the slide bar on parallel plot, people can select different values of certain features, the corresponding lines will be highlight.
@@ -162,7 +164,29 @@ Currently, we implement the server side code (server.py). We use python and web.
 \includegraphics[scale=0.5]{server.png}
 \caption{ Implementing a server through web.py is easy. We first build a map matching the url request to its handler class. Web.py puts this mapping in a global tuple variable. Then, we implement every handler class, define a ``Get'' method to response get request. Each ``Get'' method will return the requested file.}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{4dr.png}
+\caption{The projection of Dimension reduction are plotted. The user can explore the dimension reduction by adding the different weights to the dimension reduction menthod. Different groups are labeled by different colors. Four dimension reduction method, PCA, MDS, TSNE and  ISOMAP, are in the dropdown menu. The user can select the the dimension reduction method based his/her domain knowdge.}
+\end{figure}
 \end{description}
+
+\subsection{Version2}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.3]{1data.png}
+\includegraphics[scale=0.3]{2parallel.png}
+\includegraphics[scale=0.3]{3barpie.png}
+\includegraphics[scale=0.3]{4dr.png}
+\caption{version2}
+\end{figure}
+\end{description}
+
+This version lay out features of data on the very top. The user can browse and refer to this feature list when the user explore in the trend analysis and dimension reduction analysis.The parallel plot shows the trend of our important features. Through the slide bar on parallel plot, people can select different values of certain features, the corresponding lines will be highlight. The bar chart will show the Students Number vs Final Grades of the user selected range on the parallel plot. Student Number vs Feature correspondingly shows the user selected feature.The last part is the projection of Dimension reduction. The user can explore the dimension reduction by adding the different weights to the dimension reduction menthod. Different groups are labeled by different colors. Four dimension reduction method, PCA, MDS, TSNE and  ISOMAP, are in the dropdown menu. The user can select the the dimension reduction method based his/her domain knowdge.
+
+
 \section{Reference}
 \begin{itemize}
 \item UCI data repo Link: {http://archive.ics.uci.edu/ml/datasets/Student+Performance}
