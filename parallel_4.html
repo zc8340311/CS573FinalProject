@@ -74,9 +74,9 @@
       #control_panel2{
           float: left;
       }
-      text{
+/*      text{
             font-size: 14px;
-      } 
+      } */
 
       .content{
         width:1102px;
@@ -273,6 +273,8 @@
 
     var data_detail = ["1. studytime - weekly study time","2. failures - number of past class failures","3. goout - going out with friends","4. Dalc - workday alcohol consumption","5. Walc - weekend alcohol consumption","6. absences - number of school absences","7. G1 - first period grade", "8. G2 - second period grade", "9. G3 - final grade", "10. school - student's school","11. sex - student’s sex","12. age - student’s age","13. address - student’s home address type","14. famsize - family size","15. Pstatus - parent’s cohabitation status","16. Medu - mother’s education","17. Fedu - father’s education","18. Mjob - mother’s job","19. Fjob - father’s job","20. reason - reason to choose this school","21. guardian - student’s guardian","22. schoolsup - extra educational support","23. famsup - family educational support","24. paid - extra paid classes within the course subject","25. activities - extra-curricular activities","26. nursery - attended nursery school","27. higher - wants to take higher education","28. internet - Internet access at home","29. romantic - with a romantic relationship"];
 
+    var data_feature = ["studytime", "failures", "goout", "Dalc", "Walc","absences", "G1", "G2", "G3", "school", "sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "Mjob", "Fjob","reason","guardian", "schoolsup", "famsup", "paid", "activities", "nursery", "higher", "internet", "internet"];
+
     var grade = ["A: 16-20", "B: 14-15", "C: 12-13", "D: 10-11", "F:0-9"];
 
     var x = d3.scale.ordinal().rangePoints([0, w], 1)
@@ -363,7 +365,25 @@
                                     else{
                                         return (i-15)*20;
                                     }
-                                });
+                                })
+                                .attr("font-size","15px");
+        // var a = feature_detail[0][0];
+        // console.log(a);
+
+
+        feature_detail.on("mouseover",function(){
+            d3.select(this)//.transition()
+                .attr("font-size","22px")
+                            .attr("fill","orange");
+                })
+                .on("mouseout",function(){
+                    if(d3.select(this).attr("class") == "clicked"){
+                        return;
+                    }
+                    else{d3.select(this).transition()
+                            .attr("font-size","15px")
+                            .attr("fill","black");}
+                });
 //-------------------------------------------------------------------------------------
 //
 //               parallel coordinate function
@@ -386,7 +406,7 @@
                             .range([h,0]);
             }
 
-            else if (d === "goout"){
+            else if (d === "Fedu"){
                 y[d] = d3.scale.linear()
                             .domain(d3.extent(data,function(p){return +p[d];}))
                             //.domain([0,20])
@@ -497,12 +517,62 @@
             .each(function(d){
                 d3.select(this).call(axis.scale(y[d]));
             })
-            .append("svg:text")
-            .attr("text-anchor", "middle")
-            .attr("y", -9)
-            .text(String)
-            .attr("fill","black")
-            .attr("font-size",13);
+
+        var parallel_label = g.append("svg:text")
+                              .attr("text-anchor", "middle")
+                              .attr("y", -9)
+                              .text(String)
+                              .attr("fill","black")
+                              .attr("font-size","15px")
+                              .attr("class","nonclick");
+
+        parallel_label.on("mouseover",function(){
+            d3.select(this)//.transition()
+                .attr("font-size","22px")
+                            .attr("fill","orange");
+                })
+                .on("mouseout",function(){
+                    if(d3.select(this).attr("class") == "clicked"){
+                        return;
+                    }
+                    else{d3.select(this).transition()
+                            .attr("font-size","15px")
+                            .attr("fill","black");}
+                })
+                .on("click",function(){
+
+                    if(d3.select(this).attr("class") == "nonclick"){
+                    
+                      d3.selectAll(".clicked")
+                            .attr("fill","black")
+                            .attr("font-size","15px")
+                            .attr("class","nonclick");//when cilck other text, the clicked text become unclicked. 
+                      //select_label = d3.select(this).text();
+                      //console.log(select_label);
+                      //select_index = data_feature.indexOf(select_label);
+
+                      //console.log(select_index);
+                      //console.log(data_detail[0][select_index])//.attr("fill", "orange");
+
+                      d3.select(this).attr("fill","orange")
+                        .attr("class","clicked")
+                        .attr("font-size","22px");                     
+                    }else{
+                      d3.select(this).attr("class","nonclick")
+                        .attr("font-size","15px")
+                        .attr("fill","black");                      
+                    }
+
+
+                })
+
+
+            // .append("svg:text")
+            // .attr("text-anchor", "middle")
+            // .attr("y", -9)
+            // .text(String)
+            // .attr("fill","black")
+            // .attr("font-size",13);
 
         // Add and store a brush for each axis.
         g.append("svg:g")
