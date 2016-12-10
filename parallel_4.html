@@ -5,6 +5,10 @@
     <title>Han Parrallel</title>
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
     <style >
+        * {
+            font-family: sans-serif;
+        }
+
         .background path{
             fill: none;
             stroke:#f2f0f7;
@@ -32,31 +36,20 @@
             border:1px solid black;
             }
 
-/*        selection{
-            position:absolute;
-            top:850px;
-            left:780px;
-        }*/
-
         #chart{
-            width:100%;
-            margin: 3%;
-            float: left;
+            padding:40px 0;
         }
         #header{
             width:100%;
             float: middle;
         }
         #pie{
-            width:30%;
-            float: left;
+            position: relative;
+            float: right;
         }
         #parallel{
-            width:100%;
-            float: left;
         }
         #bar_numeric{
-            width:50%;
             float: left;
         }
 
@@ -81,12 +74,55 @@
       #control_panel2{
           float: left;
       }
+      text{
+            font-size: 14px;
+      } 
+
+      .content{
+        width:1102px;
+        margin: 0 auto;
+      }
+      .group:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+      #pieselection{
+            position:absolute;
+            bottom:10px;
+            right:10px;        
+      }
+      #data_info{
+            padding:40px 0;        
+      }    
 
     </style>
 
   </head>
   <body>
+
   <div id = "header" style="text-align:center;">
+    <h1> CS573 Final Project: Student Grade Explore</h1>
+    <p> 2016Fall:  Han Jiang, Chong Zhou, Haitao Liu</h2>
+  </div>
+  <div class="content">
+        <div id = "data_info" style="text-align:center;">
+          <h3>Data Information</h3>
+          <p>This data includes student achievement in secondary education of two Portuguese schools in Math subject. Each student has 29 features, the details are followed.</p>
+        </div>
+      <div id="parallel" style="text-align:center;"></div>
+
+      <div id="chart" class="group" style="text-align:center;">
+        <div id="bar_numeric">
+          <p>Students Number vs Final Grades</p>
+        </div>
+        <div id="pie">
+          <p>Student Number vs Feature</p>
+        </div>
+      </div>
+  </div>
+
+<!--   <div id = "header" style="text-align:center;">
     <h1> CS573 Final Project: Student Grade Explore</h1>
     <p> 2016Fall:  Han Jiang, Chong Zhou, Haitao Liu</h2>
   </div>
@@ -105,7 +141,7 @@
     <div id = "pie">
         <p>Student Number vs Feature</p>
     </div>
-  </div>
+  </div> -->
   <div style="text-align:center;">
         <h2 >Diemension Reduction non-linear projection with selected emphasis</h2>
         <p>Dimensionality Reduction is about converting data of very high dimensionality into data of much lower dimensionality such that each of the lower dimensions convey much more information.</p>
@@ -269,7 +305,7 @@
         background,
         foreground;
 
-    var xbar = d3.scale.ordinal().rangeBands([0, w2],.1).domain(["A","B","C","D","F"]);
+    var xbar = d3.scale.ordinal().rangeBands([0, w2-50],.1).domain(["A","B","C","D","F"]);
     var ybar = d3.scale.linear()
                         .range([h2,0])
                         //.domain([0,150]);
@@ -630,14 +666,14 @@
                             .enter()
                             .append("rect")
                             .attr("x",function(d,i){
-                                return 25 + i*90;
+                                return 25 + i*80;
                             })
                             .attr("y",function(d){
                                 //return h2 - ybar(d);
                                 return  ybar(d);
                                 //return d;
                             })
-                            .attr("width",50)
+                            .attr("width",40)
                             .attr("height",function(d){
                                 return h2 - ybar(d);
                                 //return d;
@@ -682,12 +718,12 @@
                 .attr("transform", "translate(" + 20 + ",0)")
                 .call(b_yAixs);
 
-            svg2.append("text")
-                .attr("x",100)
-                .attr("y",0)
-                .text("Students Number vs Final Grades")
-                .style("font-size","18px")
-                .attr("class","title");
+            // svg2.append("text")
+            //     .attr("x",100)
+            //     .attr("y",0)
+            //     .text("Students Number vs Final Grades")
+            //     .style("font-size","18px")
+            //     .attr("class","title");
 
 
             //highlight selected bar
@@ -725,6 +761,7 @@
         var selection = d3.select("#pie")
                             //.append("div")
                             .append("select")
+                            .attr("id","pieselection")
                             .on("change",function(){
                                 var s = this.value;
                                 count_select_cate(s);
@@ -732,8 +769,8 @@
                                 console.log(s);
                                 draw_pie();
 
-                            })
-                            .attr("class","selection");
+                            });
+                            //.attr("class","selection");
 
 
         selection.selectAll("option")
