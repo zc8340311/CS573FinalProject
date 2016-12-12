@@ -4,3 +4,8 @@ Please find the proposal here:
 
 Please find the process here:
 [process](https://github.com/zc8340311/CS573FinalProject/blob/master/Process\ book.pdf)
+
+
+Flease find the 2mins demo video
+[Demo video](https://www.youtube.com/watch?v=azVAb724OGY)
+
