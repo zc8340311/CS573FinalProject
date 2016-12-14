@@ -15,6 +15,7 @@ Quick View:
 Note: The dimension reduction does not work on this link. To check all functions, please download it and run server.py  
 ===
 Repo File Description:
+
 1. Data are stored in data folder. 
 
 2. server.py are server code. To test all functions of our final, please run this server using : python server.py
@@ -22,6 +23,7 @@ Repo File Description:
 3. parallel_6.html is front end code. After server starts, please go to your web browser: http://localhost:8080/parallel_6.html .
 
 4. *.pdf and *.tex are documents which list above.
+
 ===
 Non-obvious Features:
 
