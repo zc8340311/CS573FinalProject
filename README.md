@@ -2,13 +2,13 @@ Final Project
 ===
 Please find the proposal here:
 [proposal](https://github.com/zc8340311/CS573FinalProject/blob/master/Proposal.pdf)
----
+
 Please find the process here:
 [process](https://github.com/zc8340311/CS573FinalProject/blob/master/Process\ book.pdf)
----
+
 Flease find the 2mins demo video
 [Demo video](https://www.youtube.com/watch?v=azVAb724OGY)
----
+
 Quick View:
 ["Final Project"](https://zc8340311.github.io/CS573FinalProject/)
 
@@ -33,7 +33,7 @@ We use web.py implement a server, which could listen on 8080 port (by default) a
 
 A quick view of server code:
 
-[server](./scrachPlot/server.png)
+![server](./scrachPlot/server.png)
 
 ===
 Reference:
