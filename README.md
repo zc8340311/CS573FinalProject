@@ -12,10 +12,11 @@ Flease find the 2mins demo video
 Quick View:
 ["Final Project"](https://zc8340311.github.io/CS573FinalProject/)
 
-Note: The dimension reduction does not work on this link. To check all functions, please download it and run server.py  
+Note: The dimension reduction does not work on this link. To check all functions, please download it and run server.py 
+ 
 ===
 Repo File Description:
-
+===
 1. Data are stored in data folder. 
 
 2. server.py are server code. To test all functions of our final, please run this server using : python server.py
@@ -26,7 +27,7 @@ Repo File Description:
 
 ===
 Non-obvious Features:
-
+===
 We use web.py implement a server, which could listen on 8080 port (by default) and handle the url request. 
 
 1.We first build a global variable map that map request url to its handler class.
@@ -39,7 +40,7 @@ A quick view of server code:
 
 ===
 Reference:
-
+===
 [d3](https://d3js.org/)
 
 [web.py](http://webpy.org/)
